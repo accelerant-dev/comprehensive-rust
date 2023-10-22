@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/rust:1-${VARIANT}
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-RUN cargo install
+# RUN cargo install
 
 RUN cargo install mdbook
 RUN cargo install mdbook-svgbob
