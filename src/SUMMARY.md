@@ -2,17 +2,20 @@
 
 <!-- Keep first page as index.md to avoid giving it two names. -->
 [Welcome to Comprehensive Rust 🦀](index.md)
-- [Running the Course](running-the-course.md)
+<!-- - [Running the Course](running-the-course.md)
   - [Course Structure](running-the-course/course-structure.md)
   - [Keyboard Shortcuts](running-the-course/keyboard-shortcuts.md)
-  - [Translations](running-the-course/translations.md)
+  - [Translations](running-the-course/translations.md) -->
+
+# Orientation
+
 - [Using Cargo](cargo.md)
-  - [Rust Ecosystem](cargo/rust-ecosystem.md)
-  - [Code Samples](cargo/code-samples.md)
-  - [Running Cargo Locally](cargo/running-locally.md)
+- [Rust Ecosystem](cargo/rust-ecosystem.md)
+- [Code Samples](cargo/code-samples.md)
+- [Running Cargo Locally](cargo/running-locally.md)
 
 
-# Day 1: Morning
+# Session 1: Basics
 
 ----
 
@@ -40,7 +43,7 @@
   - [Implicit Conversions](exercises/day-1/implicit-conversions.md)
   - [Arrays and for Loops](exercises/day-1/for-loops.md)
 
-# Day 1: Afternoon
+# Session 2: Full Programs
 
 - [Control Flow](control-flow.md)
   - [Blocks](control-flow/blocks.md)
@@ -73,7 +76,7 @@
   - [Luhn Algorithm](exercises/day-1/luhn.md)
   - [Pattern Matching](exercises/day-1/pattern-matching.md)
 
-# Day 2: Morning
+# Session 3: Building a mental model
 
 ----
 
@@ -107,7 +110,7 @@
   - [Storing Books](exercises/day-2/book-library.md)
   - [Health Statistics](exercises/day-2/health-statistics.md)
 
-# Day 2: Afternoon
+# Session 4: A tour of the standard library
 
 - [Standard Library](std.md)
   - [Option and Result](std/option-result.md)
@@ -128,7 +131,7 @@
   - [Strings and Iterators](exercises/day-2/strings-iterators.md)
 
 
-# Day 3: Morning
+# Session 5: The type system
 
 ----
 
@@ -156,7 +159,7 @@
   - [A Simple GUI Library](exercises/day-3/simple-gui.md)
   - [Points and Polygons](exercises/day-3/points-polygons.md)
 
-# Day 3: Afternoon
+# Session 6: Errors and testing
 
 - [Error Handling](error-handling.md)
   - [Panics](error-handling/panics.md)
@@ -186,7 +189,7 @@
   - [Safe FFI Wrapper](exercises/day-3/safe-ffi-wrapper.md)
 
 
-# Android
+<!-- # Android
 
 ----
 
@@ -210,9 +213,9 @@
   - [With C++](android/interoperability/cpp.md))
   - [With Java](android/interoperability/java.md)
 - [Exercises](exercises/android/morning.md)
+ -->
 
-
-# Bare Metal: Morning
+<!-- # Bare Metal: Morning
 
 ----
 
@@ -259,10 +262,10 @@
 - [Android](bare-metal/android.md)
   - [vmbase](bare-metal/android/vmbase.md)
 - [Exercises](exercises/bare-metal/afternoon.md)
-  - [RTC Driver](exercises/bare-metal/rtc.md)
+  - [RTC Driver](exercises/bare-metal/rtc.md) -->
 
 
-# Concurrency: Morning
+# Concurrency Add On: Session 1
 
 ----
 
@@ -284,7 +287,7 @@
   - [Dining Philosophers](exercises/concurrency/dining-philosophers.md)
   - [Multi-threaded Link Checker](exercises/concurrency/link-checker.md)
 
-# Concurrency: Afternoon
+# Concurrency Add On: Session 2
 
 - [Async Basics](async.md)
   - [async/await](async/async-await.md)
