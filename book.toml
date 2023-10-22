@@ -3,7 +3,7 @@ authors = ["Martin Geisler"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Comprehensive Rust 🦀"
+title = "Comprehensive Rust with timClicks 🦀"
 
 [rust]
 edition = "2021"
@@ -37,8 +37,8 @@ additional-css = [
   "theme/css/frontmatter.css",
 ]
 site-url = "/comprehensive-rust/"
-git-repository-url = "https://github.com/google/comprehensive-rust"
-edit-url-template = "https://github.com/google/comprehensive-rust/edit/main/{path}"
+git-repository-url = "https://github.com/accelerant-dev/comprehensive-rust"
+edit-url-template = "https://github.com/accelerant-dev/comprehensive-rust/edit/2023-10/{path}"
 
 [output.html.fold]
 enable = true
