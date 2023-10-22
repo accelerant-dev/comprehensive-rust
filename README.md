@@ -42,8 +42,9 @@ The course is built using a few tools:
 First clone the repository:
 
 ```shell
-git clone https://github.com/google/comprehensive-rust/
+git clone https://github.com/accelerant/comprehensive-rust/
 cd comprehensive-rust
+git checkout 2023-10
 ```
 
 Then install these tools with:
