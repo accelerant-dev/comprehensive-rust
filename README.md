@@ -4,43 +4,30 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/google/comprehensive-rust?style=flat-square)](https://github.com/google/comprehensive-rust/graphs/contributors)
 [![GitHub stars](https://img.shields.io/github/stars/google/comprehensive-rust?style=flat-square)](https://github.com/google/comprehensive-rust/stargazers)
 
-This repository has the source code for Comprehensive Rust 🦀, a multi-day Rust
-course developed by the Android team. The course covers all aspects of Rust,
-from basic syntax to generics and error handling. It also includes deep dives on
-[Android], [bare-metal], and [concurrency].
+This repository has the source code for the customizations by Accelerant to
+Comprehensive Rust 🦀, a multi-day Rust course developed by the Android team.
+
+The course covers all aspects of Rust, from basic syntax to generics and error
+handling. It also includes deep dives on [Android], [bare-metal], and
+[concurrency].
 
 [Android]: https://google.github.io/comprehensive-rust/android.html
 [bare-metal]: https://google.github.io/comprehensive-rust/bare-metal.html
 [concurrency]: https://google.github.io/comprehensive-rust/concurrency.html
 
-Read the course at **https://google.github.io/comprehensive-rust/**.
+## Setup
 
-## Course Format and Target Audience
+You'll need two core tools:
 
-The course is used internally at Google when teaching Rust to experienced
-software engineers. They typically have a background in C++ or Java.
+- Rust
+- A text editor
 
-The course is taught in a classroom setting and we hope it will be useful for
-others who want to teach Rust to their team. The course will be less useful for
-self-study since you miss out on the discussions happening in the classroom. You
-don't see the questions and answers and you don't see the compiler errors we
-trigger when going through the code samples. We hope to improve on this via
-[speaker notes](https://github.com/google/comprehensive-rust/issues/53) and by
-[publishing videos](https://github.com/google/comprehensive-rust/issues/52).
+For Rust, you're recommended to use the installer provided at
+<https://rustup.rs> which provides `cargo`, `rustup` and `rustc`.
 
-## Press
-
-Articles and blog posts from around the web which cover Comprehensive Rust:
-
-- 2023-09-08:
-  _[Teaching Rust in 5 days](https://mo8it.com/blog/teaching-rust/)_.
-  Comprehensive Rust was used as a base for a 5-day university class on Rust.
-- 2023-09-21:
-  _[Scaling Rust Adoption Through Training](https://security.googleblog.com/2023/09/scaling-rust-adoption-through-training.html)_.
-  We published a blog post with details on the development of the course.
-- 2023-10-02:
-  _[In Search of Rust Developers, Companies Turn to In-House Training](https://www.darkreading.com/application-security/google-microsoft-take-refuge-in-rust-languages-better-security)_.
-  About how Microsoft, Google, and others are training people in Rust.
+If your editor has support for dev containers, then you'll be able to benefit
+from having a pre-built environment for you. Otherwise you'll need to run the
+build steps.
 
 ## Building
 
@@ -94,7 +81,9 @@ where `xx` is the ISO 639 language code (e.g. `da` for the Danish translation).
 
 ## Contact
 
-For questions or comments, please contact
-[Martin Geisler](mailto:mgeisler@google.com) or start a
+For questions or comments, please contact [Tim McNamara](mailto:tim@accelerant.dev) in the first instance.
+
+The team at Google is also very supportive. To contribute to the core material,
+contact [Martin Geisler](mailto:mgeisler@google.com) or start a
 [discussion on GitHub](https://github.com/google/comprehensive-rust/discussions).
 We would love to hear from you.
