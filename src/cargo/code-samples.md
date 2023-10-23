@@ -1,6 +1,6 @@
 # Running Code Samples
 
-Most of Tthe code blocks in this course are fully interactive:
+Most of the code blocks in this course are fully interactive:
 
 ```rust,editable
 fn main() {
