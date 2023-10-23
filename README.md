@@ -25,9 +25,11 @@ You'll need two core tools:
 For Rust, you're recommended to use the installer provided at
 <https://rustup.rs> which provides `cargo`, `rustup` and `rustc`.
 
-If your editor has support for dev containers, then you'll be able to benefit
+If your editor has support for [dev containers], then you'll be able to benefit
 from having a pre-built environment for you. Otherwise you'll need to run the
 build steps.
+
+[dev containers]: https://containers.dev/
 
 ## Building
 

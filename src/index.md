@@ -1,47 +1,34 @@
-# Welcome to Comprehensive Rust 🦀
+# Welcome to Comprehensive Rust with timClicks 🦀
 
 [![Build workflow](https://img.shields.io/github/actions/workflow/status/google/comprehensive-rust/build.yml?style=flat-square)](https://github.com/google/comprehensive-rust/actions/workflows/build.yml?query=branch%3Amain)
 [![GitHub contributors](https://img.shields.io/github/contributors/google/comprehensive-rust?style=flat-square)](https://github.com/google/comprehensive-rust/graphs/contributors)
 [![GitHub stars](https://img.shields.io/github/stars/google/comprehensive-rust?style=flat-square)](https://github.com/google/comprehensive-rust/stargazers)
 
-This is a free Rust course developed by the Android team at Google. The course covers
-the full spectrum of Rust, from basic syntax to advanced topics like generics
-and error handling.
+This is a derivative of the open source course developed by the Android team at
+Google.
 
-> The latest version of the course can be found at
-> <https://google.github.io/comprehensive-rust/>. If you are reading
-> somewhere else, please check there for updates.
+It's being offered as a paid option with the explicit blessing of the
+upstream team - the project lead Martin even suggested it. 
 
-The goal of the course is to teach you Rust. We assume you don't know anything
-about Rust and hope to:
+The material covers the full spectrum of Rust, from basic syntax to advanced
+topics like generics and error handling.
+
+The course is designed to be interative! Please share your knowledge, and
+perhaps a few fustrations along the way. 
+
+We hope to:
 
 * Give you a comprehensive understanding of the Rust syntax and language.
 * Enable you to modify existing programs and write new programs in Rust.
 * Show you common Rust idioms.
 
-We call the first three course days Rust Fundamentals.
+The first 6 sessions are called the "Rust Fundamentals".
 
-Building on this, you're invited to dive into one or more specialized topics:
+Building on this, you're invited to also explore the
+[Concurrency](concurrency.md) add on, which covers both classical concurrency
+(preemptively scheduling using threads and mutexes) and async/await
+concurrency (cooperative multitasking using futures).
 
-* [Android](android.md): a half-day course on using Rust for Android platform
-  development (AOSP). This includes interoperability with C, C++, and Java.
-* [Bare-metal](bare-metal.md): a whole-day class on using Rust for bare-metal
-  (embedded) development. Both microcontrollers and application processors are
-  covered.
-* [Concurrency](concurrency.md): a whole-day class on concurrency in Rust. We
-  cover both classical concurrency (preemptively scheduling using threads and
-  mutexes) and async/await concurrency (cooperative multitasking using
-  futures).
-
-
-## Non-Goals
-
-Rust is a large language and we won't be able to cover all of it in a few days.
-Some non-goals of this course are:
-
-* Learning how to develop macros: please see [Chapter 19.5 in the Rust
-  Book](https://doc.rust-lang.org/book/ch19-06-macros.html) and [Rust by
-  Example](https://doc.rust-lang.org/rust-by-example/macros.html) instead.
 
 ## Assumptions
 
