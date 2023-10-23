@@ -3,15 +3,14 @@
 ARG VARIANT="bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/rust:1-${VARIANT}
 
-# [Optional] Uncomment this section to install additional packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-# RUN cargo install
-
 RUN cargo install mdbook
 RUN cargo install mdbook-svgbob
 RUN cargo install mdbook-i18n-helpers
+
+# [Optional] Uncomment this section to install additional packages.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends git
+
 RUN git clone https://github.com/accelerant-dev/comprehensive-rust/ &&\
     cd comprehensive-rust &&\
     git checkout 2023-10 &&\

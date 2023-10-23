@@ -35,13 +35,17 @@
 			]
 		}
 	},
-		"onCreateCommand" : "echo PS1='\"$ \"' >> ~/.bashrc", //Set Terminal Prompt to $
+
+	"onCreateCommand" : "echo PS1='\"$ \"' >> ~/.bashrc", //Set Terminal Prompt to $
+
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+	"workspaceFolder": "/workspace",
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [3000],
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "rustc --version",
+	"postCreateCommand": "rustc --version",
 
 	// Comment out to run as root instead.
 	"remoteUser": "vscode"
