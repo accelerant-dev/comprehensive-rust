@@ -47,6 +47,14 @@
 
 - [**Welcome**](welcome-session-2.md)
 
+- [Structs](structs.md)
+  - [Tuple Structs](structs/tuple-structs.md)
+  - [Field Shorthand Syntax](structs/field-shorthand.md)
+
+- [Methods](methods.md)
+  - [Method Receiver](methods/receiver.md)
+  - [Example](methods/example.md)
+
 - [Control Flow](control-flow.md)
   - [Blocks](control-flow/blocks.md)
   - [if expressions](control-flow/if-expressions.md)
@@ -103,12 +111,6 @@
   - [Lifetimes](ownership/lifetimes.md)
   - [Lifetimes in Function Calls](ownership/lifetimes-function-calls.md)
   - [Lifetimes in Data Structures](ownership/lifetimes-data-structures.md)
-- [Structs](structs.md)
-  - [Tuple Structs](structs/tuple-structs.md)
-  - [Field Shorthand Syntax](structs/field-shorthand.md)
-- [Methods](methods.md)
-  - [Method Receiver](methods/receiver.md)
-  - [Example](methods/example.md)
 - [Exercises](exercises/session-3/welcome.md)
   - [Storing Books](exercises/session-3/book-library.md)
   - [Health Statistics](exercises/session-3/health-statistics.md)
