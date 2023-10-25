@@ -76,6 +76,8 @@
   - [Variant Payloads](enums/variant-payloads.md)
   - [Enum Sizes](enums/sizes.md)
 
+- [Exercise: Credit Card Validator](exercises/session-2/luhn.md)
+
 - [Novel Control Flow](control-flow/novel.md)
   - [if let expressions](control-flow/if-let-expressions.md)
   - [while let expressions](control-flow/while-let-expressions.md)
@@ -87,9 +89,7 @@
   - [Destructuring Arrays](pattern-matching/destructuring-arrays.md)
   - [Match Guards](pattern-matching/match-guards.md)
 
-- [Exercises](exercises/session-2/welcome.md)
-  - [Luhn Algorithm](exercises/session-2/luhn.md)
-  - [Pattern Matching](exercises/session-2/pattern-matching.md)
+- [Exercise: Code Interpreter](exercises/session-2/pattern-matching.md)
 
 # Session 3: Building a mental model
 

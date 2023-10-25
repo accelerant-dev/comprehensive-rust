@@ -27,11 +27,10 @@ Then, revisit the solution and try to implement it with iterators.
 #![allow(unused_variables, dead_code)]
 
 {{#include luhn.rs:luhn}}
-    unimplemented!()
+    todo!()
 }
 
-{{#include luhn.rs:unit-tests}}
+{{#include luhn.rs:main}}
 
-#[allow(dead_code)]
-fn main() {}
+{{#include luhn.rs:unit-tests}}
 ```

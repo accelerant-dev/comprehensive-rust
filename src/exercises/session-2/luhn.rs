@@ -46,6 +46,7 @@ pub fn luhn(cc_number: &str) -> bool {
     sum % 10 == 0
 }
 
+// ANCHOR: main
 fn main() {
     let cc_number = "1234 5678 1234 5670";
     println!(
@@ -53,6 +54,7 @@ fn main() {
         if luhn(cc_number) { "yes" } else { "no" }
     );
 }
+// ANCHOR_END: main
 
 // ANCHOR: unit-tests
 #[test]
