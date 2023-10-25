@@ -1,6 +1,7 @@
 # Structs
 
-Like C and C++, Rust has support for custom structs:
+Structs are custom data types with named fields.
+
 
 ```rust,editable
 struct Person {

@@ -47,13 +47,17 @@
 
 - [**Welcome**](welcome-session-2.md)
 
-- [Structs](structs.md)
+- [Recap](session-2-recap.md)
+
+- [Structs](structs/structs.md)
   - [Tuple Structs](structs/tuple-structs.md)
   - [Field Shorthand Syntax](structs/field-shorthand.md)
 
 - [Methods](methods.md)
   - [Method Receiver](methods/receiver.md)
   - [Example](methods/example.md)
+
+- [Exercise: Thumbnail Generator](exercises/session-2/thumbnail-generator.md)
 
 - [Control Flow](control-flow.md)
   - [Blocks](control-flow/blocks.md)
@@ -65,7 +69,7 @@
 
 - [Variables](basic-syntax/variables.md)
   - [Type Inference](basic-syntax/type-inference.md)
-  - [static & const](basic-syntax/static-and-const.md))
+  - [static & const](basic-syntax/static-and-const.md)
   - [Scopes and Shadowing](basic-syntax/scopes-shadowing.md)
 
 - [Enums](enums.md)
