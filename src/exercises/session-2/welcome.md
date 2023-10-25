@@ -1,4 +1,4 @@
-# Day 1: Afternoon Exercises
+# Session 2 Exercises
 
 We will look at two things:
 
@@ -10,6 +10,6 @@ We will look at two things:
 
 After looking at the exercises, you can look at the [solutions] provided.
 
-[solutions]: solutions-afternoon.md
+[solutions]: solutions.md
 
 </details>

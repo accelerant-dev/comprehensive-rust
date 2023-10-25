@@ -13,6 +13,6 @@ To get started, follow the [running locally] instructions.
 
 After looking at the exercise, you can look at the [solution] provided.
 
-[solution]: solutions-afternoon.md
+[solution]: solutions.md
 
 </details>

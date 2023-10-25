@@ -1,4 +1,4 @@
-# Day 2 Morning Exercises
+# Session 3 Exercises
 
 ## Designing a Library
 

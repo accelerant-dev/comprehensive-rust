@@ -1,4 +1,4 @@
-# Day 2: Afternoon Exercises
+# Session 4 Exercises
 
 The exercises for this afternoon will focus on strings and iterators.
 
@@ -6,6 +6,6 @@ The exercises for this afternoon will focus on strings and iterators.
 
 After looking at the exercises, you can look at the [solutions] provided.
 
-[solutions]: solutions-afternoon.md
+[solutions]: solutions.md
 
 </details>

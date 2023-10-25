@@ -10,6 +10,6 @@ We will look at implementing methods in two contexts:
 
 After looking at the exercises, you can look at the [solutions] provided.
 
-[solutions]: solutions-morning.md
+[solutions]: solutions.md
 
 </details>

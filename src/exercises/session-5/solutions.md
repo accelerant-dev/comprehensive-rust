@@ -1,4 +1,4 @@
-# Day 3 Morning Exercise
+# Session 5 Exercises
 
 ## Drawing A Simple GUI
 

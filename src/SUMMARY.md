@@ -39,9 +39,9 @@
     - [Rustdoc](basic-syntax/rustdoc.md)
     - [Methods](basic-syntax/methods.md)
     - [Overloading](basic-syntax/functions-interlude.md)
-- [Exercises](exercises/day-1/morning.md)
-  - [Implicit Conversions](exercises/day-1/implicit-conversions.md)
-  - [Arrays and for Loops](exercises/day-1/for-loops.md)
+- [Exercises](exercises/session-1/welcome.md)
+  - [Implicit Conversions](exercises/session-1/implicit-conversions.md)
+  - [Arrays and for Loops](exercises/session-1/for-loops.md)
 
 # Session 2: Full Programs
 
@@ -75,9 +75,9 @@
   - [Destructuring Arrays](pattern-matching/destructuring-arrays.md)
   - [Match Guards](pattern-matching/match-guards.md)
 
-- [Exercises](exercises/day-1/afternoon.md)
-  - [Luhn Algorithm](exercises/day-1/luhn.md)
-  - [Pattern Matching](exercises/day-1/pattern-matching.md)
+- [Exercises](exercises/session-2/welcome.md)
+  - [Luhn Algorithm](exercises/session-2/luhn.md)
+  - [Pattern Matching](exercises/session-2/pattern-matching.md)
 
 # Session 3: Building a mental model
 
@@ -109,9 +109,9 @@
 - [Methods](methods.md)
   - [Method Receiver](methods/receiver.md)
   - [Example](methods/example.md)
-- [Exercises](exercises/day-2/morning.md)
-  - [Storing Books](exercises/day-2/book-library.md)
-  - [Health Statistics](exercises/day-2/health-statistics.md)
+- [Exercises](exercises/session-3/welcome.md)
+  - [Storing Books](exercises/session-3/book-library.md)
+  - [Health Statistics](exercises/session-3/health-statistics.md)
 
 # Session 4: A tour of the standard library
 
@@ -129,9 +129,9 @@
   - [Visibility](modules/visibility.md)
   - [Paths](modules/paths.md)
   - [Filesystem Hierarchy](modules/filesystem.md)
-- [Exercises](exercises/day-2/afternoon.md)
-  - [Iterators and Ownership](exercises/day-2/iterators-and-ownership.md)
-  - [Strings and Iterators](exercises/day-2/strings-iterators.md)
+- [Exercises](exercises/session-4/welcome.md)
+  - [Iterators and Ownership](exercises/session-4/iterators-and-ownership.md)
+  - [Strings and Iterators](exercises/session-4/strings-iterators.md)
 
 
 # Session 5: The type system
@@ -158,9 +158,9 @@
   - [Default](traits/default.md)
   - [Operators: Add, Mul, ...](traits/operators.md)
   - [Closures: Fn, FnMut, FnOnce](traits/closures.md)
-- [Exercises](exercises/day-3/morning.md)
-  - [A Simple GUI Library](exercises/day-3/simple-gui.md)
-  - [Points and Polygons](exercises/day-3/points-polygons.md)
+- [Exercises](exercises/session-5/welcome.md)
+  - [A Simple GUI Library](exercises/session-5/simple-gui.md)
+  - [Points and Polygons](exercises/session-5/points-polygons.md)
 
 # Session 6: Errors and testing
 
@@ -188,8 +188,8 @@
     - [Writing Unsafe Functions](unsafe/writing-unsafe-functions.md)
     - [Extern Functions](unsafe/extern-functions.md)
   - [Implementing Unsafe Traits](unsafe/unsafe-traits.md)
-- [Exercises](exercises/day-3/afternoon.md)
-  - [Safe FFI Wrapper](exercises/day-3/safe-ffi-wrapper.md)
+- [Exercises](exercises/session-6/welcome.md)
+  - [Safe FFI Wrapper](exercises/session-6/safe-ffi-wrapper.md)
 
 
 <!-- # Android
@@ -327,13 +327,13 @@
 ----
 
 - [Solutions](exercises/solutions.md)
-  - [Day 1 Morning](exercises/day-1/solutions-morning.md)
-  - [Day 1 Afternoon](exercises/day-1/solutions-afternoon.md)
-  - [Day 2 Morning](exercises/day-2/solutions-morning.md)
-  - [Day 2 Afternoon](exercises/day-2/solutions-afternoon.md)
-  - [Day 3 Morning](exercises/day-3/solutions-morning.md)
-  - [Day 3 Afternoon](exercises/day-3/solutions-afternoon.md)
-  - [Bare Metal Rust Morning](exercises/bare-metal/solutions-morning.md)
-  - [Bare Metal Rust Afternoon](exercises/bare-metal/solutions-afternoon.md)
-  - [Concurrency Morning](exercises/concurrency/solutions-morning.md)
-  - [Concurrency Afternoon](exercises/concurrency/solutions-afternoon.md)
+  - [Session 1](exercises/session-1/solutions.md)
+  - [Session 2](exercises/session-2/solutions.md)
+  - [Session 3](exercises/session-3/solutions.md)
+  - [Session 4](exercises/session-4/solutions.md)
+  - [Session 5](exercises/session-5/solutions.md)
+  - [Session 6](exercises/session-6/solutions.md)
+  <!-- - [Concurrency Morning](exercises/concurrency/solutions-morning.md)
+  - [Concurrency Afternoon](exercises/concurrency/solutions-afternoon.md) -->
+  <!-- - [Bare Metal Rust Morning](exercises/bare-metal/solutions-morning.md)
+  - [Bare Metal Rust Afternoon](exercises/bare-metal/solutions-afternoon.md) -->

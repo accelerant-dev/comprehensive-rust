@@ -1,4 +1,4 @@
-# Day 1 Morning Exercises
+# Session 1 Exercises
 
 ## Arrays and `for` Loops
 

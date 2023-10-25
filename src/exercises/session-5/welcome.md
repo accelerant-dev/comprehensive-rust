@@ -8,6 +8,6 @@ We will also look at enum dispatch with an exercise involving points and polygon
 
 After looking at the exercises, you can look at the [solutions] provided.
 
-[solutions]: solutions-morning.md
+[solutions]: solutions.md
 
 </details>

@@ -1,4 +1,4 @@
-# Day 2 Afternoon Exercises
+# Session 4 Exercises
 
 ## Strings and Iterators
 

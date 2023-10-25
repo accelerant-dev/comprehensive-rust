@@ -1,4 +1,4 @@
-# Day 3 Afternoon Exercises
+# Session 6 Exercises
 
 ## Safe FFI Wrapper
 

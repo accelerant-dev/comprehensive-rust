@@ -1,4 +1,4 @@
-# Day 1: Morning Exercises
+# Session 1: Exercises
 
 In these exercises, we will explore two parts of Rust:
 
