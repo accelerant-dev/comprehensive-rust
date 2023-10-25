@@ -45,6 +45,8 @@
 
 # Session 2: Full Programs
 
+- [**Welcome**](welcome-session-2.md)
+
 - [Control Flow](control-flow.md)
   - [Blocks](control-flow/blocks.md)
   - [if expressions](control-flow/if-expressions.md)
@@ -57,6 +59,7 @@
   - [Type Inference](basic-syntax/type-inference.md)
   - [static & const](basic-syntax/static-and-const.md))
   - [Scopes and Shadowing](basic-syntax/scopes-shadowing.md)
+
 - [Enums](enums.md)
   - [Variant Payloads](enums/variant-payloads.md)
   - [Enum Sizes](enums/sizes.md)
