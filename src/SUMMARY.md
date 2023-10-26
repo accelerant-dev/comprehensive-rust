@@ -95,7 +95,7 @@
 
 ----
 
-- [Welcome](welcome-day-2.md)
+- [Welcome](welcome-session-3.md)
 
 - [Memory Management](memory-management.md)
   - [Stack vs Heap](memory-management/stack-vs-heap.md)
