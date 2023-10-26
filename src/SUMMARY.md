@@ -47,7 +47,7 @@
 
 - [**Welcome**](welcome-session-2.md)
 
-- [Recap](session-2-recap.md)
+- [Recap](recap-session-2.md)
 
 - [Structs](structs/structs.md)
   - [Tuple Structs](structs/tuple-structs.md)
@@ -97,6 +97,10 @@
 
 - [Welcome](welcome-session-3.md)
 
+- [Recap](recap-session-3.md)
+
+- [Exercise: Storing Books](exercises/session-3/book-library.md)
+
 - [Memory Management](memory-management.md)
   - [Stack vs Heap](memory-management/stack-vs-heap.md)
   - [Stack Memory](memory-management/stack.md)
@@ -110,14 +114,18 @@
     - [Double Frees in Modern C++](ownership/double-free-modern-cpp.md)
   - [Moves in Function Calls](ownership/moves-function-calls.md)
   - [Copying and Cloning](ownership/copy-clone.md)
-  - [Borrowing](ownership/borrowing.md)
-    - [Shared and Unique Borrows](ownership/shared-unique-borrows.md)
-  - [Lifetimes](ownership/lifetimes.md)
+- [Borrowing](ownership/borrowing.md)
+  - [Shared and Unique Borrows](ownership/shared-unique-borrows.md)
+- [Lifetimes](ownership/lifetimes.md)
   - [Lifetimes in Function Calls](ownership/lifetimes-function-calls.md)
   - [Lifetimes in Data Structures](ownership/lifetimes-data-structures.md)
-- [Exercises](exercises/session-3/welcome.md)
-  - [Storing Books](exercises/session-3/book-library.md)
-  - [Health Statistics](exercises/session-3/health-statistics.md)
+
+<!-- - [Exercise: Health Statistics](exercises/session-3/health-statistics.md) -->
+
+<!-- - [Exercise:](exercises/session-3/welcome.md)
+  - [Storing Books](exercises/session-3/book-library.md) -->
+
+
 
 # Session 4: A tour of the standard library
 
