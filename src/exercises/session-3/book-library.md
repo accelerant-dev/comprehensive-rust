@@ -1,21 +1,6 @@
-# Storing Books
+# Storing Book
 
-We will learn much more about structs and the `Vec<T>` type tomorrow. For now,
-you just need to know part of its API:
-
-```rust,editable
-fn main() {
-    let mut vec = vec![10, 20];
-    vec.push(30);
-    let midpoint = vec.len() / 2;
-    println!("middle value: {}", vec[midpoint]);
-    for item in &vec {
-        println!("item: {item}");
-    }
-}
-```
-
-Use this to model a library's book collection. Copy the code below to
+Let's  model a library's book collection. Copy the code below to
 <https://play.rust-lang.org/> and update the types to make it compile:
 
 ```rust,should_panic
