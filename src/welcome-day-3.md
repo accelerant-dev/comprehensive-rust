@@ -7,10 +7,10 @@ Today, we will cover some more advanced topics of Rust:
 
 * Generics: generic data types, generic methods, monomorphization, and trait
   objects.
-
+<!-- 
 * Error handling: panics, `Result`, and the try operator `?`.
 
 * Testing: unit tests, documentation tests, and integration tests.
 
 * Unsafe Rust: raw pointers, static variables, unsafe functions, and extern
-  functions.
+  functions. -->

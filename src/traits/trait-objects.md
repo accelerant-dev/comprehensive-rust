@@ -28,7 +28,7 @@ fn main() {
     }
 }
 ```
-
+<!-- 
 Memory layout after allocating `pets`:
 
 ```bob
@@ -62,6 +62,7 @@ Memory layout after allocating `pets`:
                                   :                                             :
                                   '- - - - - - - - - - - - - - - - - - - - - - -'
 ```
+-->
 
 <details>
 

@@ -76,8 +76,6 @@
   - [Variant Payloads](enums/variant-payloads.md)
   - [Enum Sizes](enums/sizes.md)
 
-- [Exercise: Credit Card Validator](exercises/session-2/luhn.md)
-
 - [Novel Control Flow](control-flow/novel.md)
   - [if let expressions](control-flow/if-let-expressions.md)
   - [while let expressions](control-flow/while-let-expressions.md)
@@ -151,18 +149,27 @@
 # Session 5: The type system
 
 ----
-
 - [Welcome](welcome-day-3.md)
-- [Generics](generics.md)
-  - [Generic Data Types](generics/data-types.md)
-  - [Generic Methods](generics/methods.md)
-  - [Monomorphization](generics/monomorphization.md)
+
+- [Exercise: Credit Card Validator](exercises/session-2/luhn.md)
+
+- [Exercise: Points and Polygons](exercises/session-5/points-polygons.md)
+
 - [Traits](traits.md)
   - [Trait Objects](traits/trait-objects.md)
   - [Deriving Traits](traits/deriving-traits.md)
   - [Default Methods](traits/default-methods.md)
   - [Trait Bounds](traits/trait-bounds.md)
   - [impl Trait](traits/impl-trait.md)
+
+- [Generics](generics.md)
+  - [Generic Data Types](generics/data-types.md)
+  - [Generic Methods](generics/methods.md)
+  - [Monomorphization](generics/monomorphization.md)
+
+- [Exercise: A simple graphical interface (GUI)
+  library](exercises/session-5/simple-gui.md)
+
 - [Important Traits](traits/important-traits.md)
   - [Iterator](traits/iterator.md)
   - [FromIterator](traits/from-iterator.md)
@@ -172,9 +179,8 @@
   - [Default](traits/default.md)
   - [Operators: Add, Mul, ...](traits/operators.md)
   - [Closures: Fn, FnMut, FnOnce](traits/closures.md)
-- [Exercises](exercises/session-5/welcome.md)
-  - [A Simple GUI Library](exercises/session-5/simple-gui.md)
-  - [Points and Polygons](exercises/session-5/points-polygons.md)
+
+
 
 # Session 6: Errors and testing
 
