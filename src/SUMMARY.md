@@ -9,11 +9,14 @@
 
 # Orientation
 
+- [Teaching Strategy](teaching-strategy.md)
+- [Butter](butter.md)
+- [Course Notes](course-repo.md)
 - [Using Cargo](cargo.md)
 - [Rust Ecosystem](cargo/rust-ecosystem.md)
 - [Code Samples](cargo/code-samples.md)
 - [Running Cargo Locally](cargo/running-locally.md)
-
+- [GitHub Codespaces](codespaces.md)
 
 # Session 1: Basics
 
@@ -87,7 +90,7 @@
   - [Destructuring Arrays](pattern-matching/destructuring-arrays.md)
   - [Match Guards](pattern-matching/match-guards.md)
 
-- [Exercise: Code Interpreter](exercises/session-2/pattern-matching.md)
+<!-- - [Exercise: Code Interpreter](exercises/session-2/pattern-matching.md) -->
 
 # Session 3: Building a mental model
 
@@ -246,7 +249,7 @@
 - [no_std](bare-metal/no_std.md)
   - [A Minimal Example](bare-metal/minimal.md)
   - [alloc](bare-metal/alloc.md)
-- [Microcontrollers](bare-metal/microcontrollers.md)
+- [MicrocontrollersThe first 6 sessions are called the “Rust Fundamentals”.](bare-metal/microcontrollers.md)
   - [Raw MMIO](bare-metal/microcontrollers/mmio.md)
   - [PACs](bare-metal/microcontrollers/pacs.md)
   - [HAL Crates](bare-metal/microcontrollers/hals.md)
@@ -287,6 +290,7 @@
 - [Exercises](exercises/bare-metal/afternoon.md)
   - [RTC Driver](exercises/bare-metal/rtc.md) -->
 
+<!--
 
 # Concurrency Add On: Session 1
 
@@ -331,6 +335,7 @@
   - [Dining Philosophers](exercises/concurrency/dining-philosophers-async.md)
   - [Broadcast Chat Application](exercises/concurrency/chat-app.md)
 
+-->
 
 # Final Words
 

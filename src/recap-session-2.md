@@ -1,6 +1,6 @@
 # Recap
 
-We covered a lot of ground in our first 4h together.
+We covered a lot of ground in our first few hours together.
 
 Let's take a look at an impenetrable encryption cipher: ROT13.
 

@@ -13,8 +13,8 @@ upstream team - the project lead Martin even suggested it.
 The material covers the full spectrum of Rust, from basic syntax to advanced
 topics like generics and error handling.
 
-The course is designed to be interative! Please share your knowledge, and
-perhaps a few fustrations along the way. 
+The course is designed to be interactive! Please share your knowledge, and
+perhaps a few frustrations along the way.
 
 We hope to:
 
@@ -22,7 +22,7 @@ We hope to:
 * Enable you to modify existing programs and write new programs in Rust.
 * Show you common Rust idioms.
 
-The first 6 sessions are called the "Rust Fundamentals".
+<!-- The first 6 sessions are called the "Rust Fundamentals".
 
 Building on this, you're invited to also explore the
 [Concurrency](concurrency.md) add on, which covers both classical concurrency
@@ -37,7 +37,7 @@ language and we will sometimes make comparisons with C and C++ to better
 explain or contrast the Rust approach.
 
 If you know how to program in a dynamically-typed language such as Python or
-JavaScript, then you will be able to follow along just fine too.
+JavaScript, then you will be able to follow along just fine too. -->
 
 <details>
 
