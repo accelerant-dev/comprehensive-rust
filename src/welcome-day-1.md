@@ -1,6 +1,6 @@
 # Welcome to Day 1
 
-This is the first day of Rust Fundamentals. We will cover a lot of groun
+This is the first day of Rust Fundamentals. We will cover a lot of ground
 today:
 
 * Basic Rust syntax: variables, scalar and compound types, enums, structs,

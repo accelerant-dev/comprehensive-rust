@@ -13,7 +13,7 @@ std::string s2 = s1;  // Duplicate the data in s1.
 Before copy-assignment:
 
 
-```bob
+```
  Stack                             Heap
 .- - - - - - - - - - - - - -.     .- - - - - - - - - - - -.
 :                           :     :                       :
@@ -29,7 +29,7 @@ Before copy-assignment:
 
 After copy-assignment:
 
-```bob
+```
  Stack                             Heap
 .- - - - - - - - - - - - - -.     .- - - - - - - - - - - -.
 :                           :     :                       :

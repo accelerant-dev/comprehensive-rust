@@ -16,7 +16,7 @@ fn main() {
 A `Box` cannot be empty, so the pointer is always valid and non-`null`. This
 allows the compiler to optimize the memory layout:
 
-```bob
+```
  Stack                           Heap
 .- - - - - - - - - - - - -.     .- - - - - - - - - - - - - - - - - - - - - - -.
 :                         :     :                                             :

@@ -13,7 +13,7 @@ fn main() {
 
 Before move to `s2`:
 
-```bob
+```
  Stack                             Heap
 .- - - - - - - - - - - - - -.     .- - - - - - - - - - - - - -.
 :                           :     :                           :
@@ -30,7 +30,7 @@ Before move to `s2`:
 
 After move to `s2`:
 
-```bob
+```
  Stack                             Heap
 .- - - - - - - - - - - - - -.     .- - - - - - - - - - - - - -.
 :                           :     :                           :

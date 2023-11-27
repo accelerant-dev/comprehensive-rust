@@ -28,10 +28,9 @@ fn main() {
     }
 }
 ```
-<!-- 
 Memory layout after allocating `pets`:
 
-```bob
+```
  Stack                             Heap
 .- - - - - - - - - - - - - -.     .- - - - - - - - - - - - - - - - - - - - - - -.
 :                           :     :                                             :
@@ -62,7 +61,6 @@ Memory layout after allocating `pets`:
                                   :                                             :
                                   '- - - - - - - - - - - - - - - - - - - - - - -'
 ```
--->
 
 <details>
 

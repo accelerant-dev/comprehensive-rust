@@ -2,7 +2,7 @@ use std::error::Error;
 use serde::Deserialize;
 
 static DATA: &str = "timestamp,sensor_id,reading
-1698313269,1,0.11
+1698313269,1,0.
 1698313270,2,4.11
 1698313296,1,0.12
 1698313297,1,0.11
@@ -24,7 +24,6 @@ fn main() -> Result<(), ()> {
         if let Ok(reading) = result {
             println!("{:?}", reading);
         }
-    }
 
     Ok(())
 }

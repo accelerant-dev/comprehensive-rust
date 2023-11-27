@@ -99,16 +99,15 @@ impl Polygon {
         result
         // Alternatively, Iterator::zip() lets us iterate over the points as pairs
         // but we need to pair each point with the next one, and the last point
-        // with the first point. The zip() iterator is finished as soon as one of 
+        // with the first point. The zip() iterator is finished as soon as one of
         // the source iterators is finished, a neat trick is to combine Iterator::cycle
-        // with Iterator::skip to create the second iterator for the zip and using map 
+        // with Iterator::skip to create the second iterator for the zip and using map
         // and sum to calculate the total length.
     }
 }
 
 // ANCHOR: Circle
 pub struct Circle {
-    // ANCHOR_END: Circle
     center: Point,
     radius: i32,
 }
@@ -121,6 +120,8 @@ impl Circle {
     }
 
     pub fn circumference(&self) -> f64 {
+
+
         2.0 * std::f64::consts::PI * f64::from(self.radius)
     }
 
