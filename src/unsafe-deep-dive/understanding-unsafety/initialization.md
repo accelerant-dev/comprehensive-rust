@@ -4,173 +4,7 @@
 
 ---
 
-## Memory lifecycle
-
-- Unpaged
-- Mapped but unallocated
-- Allocated
-- Allocated and "available" (uninitialized)
-- Allocated and "active" (initialized)
-- Deallocated but mapped
-- Unpaged
-
-<details>
-
-Variables, the data that is used to represent them, have a surprisingly complex
-lifecycle.
-
-The details are complex and we don't want to turn this class into a
-graduate-&spy;level computer architecture course. However, understanding this
-system is useful, because it explains why programmers use uninitialized memory
-for performance-critical code.
-
-Operating systems, programming languages and hardware cooperate to programs with
-convenient access to data stored on physical devices, such as RAM chips.
-Programs are provided with a façade, an imaginary array of bytes addressed from
-1 to _n_, that allows them to store and retrieve data.
-
-This imaginary array of bytes is called the _virtual address space_ and this
-setup is called _virtual memory_.
-
-Each operating system process has its own virtual address space, meaning that
-the same address means different things in different processes. Another way of
-thinking about this is that process believes that it has exclusive access to the
-data available to the machine.
-
-The operating system kernel is responsible for mapping between these virtual
-memory addresses that your program understands to something that the hardware
-understands.
-
-To do this bookkeeping, the kernel stores information in its own data structures
-and relies on concept of a _memory page_. Pages allow components within the
-computer to work together, including the OS kernel, the OS process, the
-program's threads, the CPU, and storage hardware. Pages allow sections of the
-phyiscal memory to be reserved for specific purposes and for security
-restrictions to be enforced. also allow groups of memory addresses to be given
-attributes, such as write or execution.
-
-to improve their coordination, by referring to reduce the number of lookups when
-memory addresses are nearby.
-
-You may be familiar with the term _segmentation fault_, often shortened to _seg
-fault_. This term arises because each page is a _segment_ of the very large
-virtual address space. Only a small fraction of the address space is given a
-page.
-
-Virtual memory is complex and has many stages. We'll skip over most of them to
-allow us to build a general mental model of what's happening at runtime during a
-variable's lifecycle:
-
-- Memory starts as _unmapped_ and available to OS processes that require it. The
-  operating system knows that there is available space on the hardware, but the
-  process's virtual address space does not yet include a mapping to it.
-
-As space to store data is needed, memory transitions from the unmapped state:
-
-- Memory is then _mapped_ by the OS. The operation system maps a portion of the
-  available space on the hardware to the process's virtual address space.
-- The program's allocator then _allocates_ memory.
-- This allocated memory then becomes available to the program, but is in an
-  _uninitialized_ state.
-- When the variables are created within that memory and are guaranteed to be
-  _valid_, the memory is said to be _initialized_.
-
-As space for data decreases, memory reverts to the unmapped state:
-
-- After some time, the variable's lifetime ends. It has been moved or dropped.
-  The memory for the variable in the original position may not have been
-  modified though, however it is now invalid to access. Accessing those bytes at
-  this point is _undefined behavior_ .
-- At some point, the unused memory is _deallocated_. This memory addresses
-  remain mapped.
-- Later on, when the memory page is no longer being used, the operating system
-  may remove the page from the mapping table, allowing other processes to make
-  use of the hardware.
-
-Accessing uninitialized data is undefined behavior and a very serious safety
-hazard.
-
-### Other notes
-
-When virtual machines and hypervisors are involved, additional layers of mapping
-are involved.
-
-Unless your operating system or allocator provides specific guarantees, memory
-provided to a program is not necessarily in a clean state.
-
-Allocators: The allocator is part of the program itself. The operating system is
-agnostic to how
-
-The kernel understands physical memory addresses. User-space programs only have
-access to virtual memory.
-
-The mapping between memory addresses and the pages themselves is also stored
-within memory, in a data structure that is called TLB. TLB expands to
-"thread-local buffer", which is a name that has persisted for historical
-reasons.
-
-The CPU provides the operating system with privileged instructions for
-interacting with hardware, including main memory.
-
-Rust's ownership model adds its own characteristics to this overall model. The
-data is likely to still be present in the original location, after variables are
-moved, however this is inaccessible to the program.
-
-</details>
-
----
-
-## Addressing data
-
-```rust
-static s: &str = "_";
-
-fn main() {
-    let l = 123;
-    let h = Box::new(123);
-
-    println!("{:p}", &l);
-    println!("{:p}", s);
-    println!("{:p}", &*h);
-}
-```
-
-<details>
-
-All data stored in a program lives at an _address_, a number which the operating
-system can use to retrieve or store data at that address.
-
-Local variables, such as `l`, are stored on the "stack". Memory addresses on the
-stack are quite high. (When executed, the program probably prints out a value
-near `0x7fffffffffff`)
-
-Static variables are lower
-
-Functions also stored in memory. In Rust, the keyword `fn` signifies a function
-pointer. Its address can also be printed.
-
-### Questions
-
-- Q: Why does addresses printed a not start at 1?\
-  A: The kernel reserves half of a process's address space for itself in the
-  lower half.
-
-### Variable mapping
-
-- `l` - L for _local_ - stored on the "stack"
-- `h` - H for _heap_
-- `f` - F for _function_
-- `s` - S for _static_
-
-</details>
-
----
-
-## Memory lifecycle - stack
-
-- Allocation:
-
----
+## Introduction
 
 > All runtime-allocated memory in a Rust program begins its life as
 > uninitialized.
@@ -180,25 +14,19 @@ pointer. Its address can also be printed.
 
 <details>
 
-Validity related to other concepts that we've seen before, such as _undefined
-behavior_. Validity is a precondition for well-defined behavior.
-
-This segment of the course describes what initialization is and some of its
+This segment of the course describes what _initialization_ is and some of its
 related concepts, such as _alignment_ and _validity_, and how they relate to one
 that we've seen before: _undefined behavior_.
 
-The primary focus of the segment though is to introduce the
-`std::mem::MaybeUninit` type. Its role is to allow programmers to interact with
-memory that is uninitialized and convert it to some initialized state.
-
-To get this to work, we'll work through several code examples and other
-exercises.
+</details>
 
 ---
 
+## What is uninitialized memory?
+
 ```rust,editable
 fn mystery() -> u32 {
-    let mut x: u32;
+    let x;
 
     unsafe { x }
 }
@@ -211,25 +39,81 @@ fn main() {
 
 <details>
 
-What is the value of `x`?
+**Question:** What is the value of `a`? **Answer:** We don't know. It's
+uninitialized.
 
-**Action:** Pause and await for people's responses.
+</details>
 
-We can't know.
+---
 
-This is a case of an _uninitialized_ value. When we define the variable on line
-2, the compiler makes space for an integer on the stack, however it makes no
-guarantees that there is a valid value there.
+## What is uninitialized memory? (cont.)
 
-**Action:** Attempt compilation.
+- Nondeterminism
+- Instability
+- Nearly zero-cost
+- Ubiquity
+- Unsafe to read from
+- Safe to write to
 
-**Action:** Suggested change:
+<details>
 
-```rust
-use std::mem;
+- **Nondeterminism**. It's impossible to assume which bits will be present when
+  read (although some platforms do provide their own guarantees).
+- **Instability**. Reading the same uninitialized byte multiple times can
+  produce different values.
+- **Nearly zero-cost**. Because zeroing bytes or performing other pre-flight
+  checks before use is not mandated, utilizing uninitialized memory with care
+  can offer performance optimizations.
+- **Ubiquity**. All memory starts its life as uninitialized.
+- **Unsafe to read from**. Reading from uninitialized memory immediately
+  triggers _undefined behavior_.
+- **Safe to write to**. Programs may write bytes to the memory region. This
+  allows programmers to overwrite the uninitialized bytes with values that are
+  guaranteed to be valid.
 
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=651684ebcb9c5f46c74b60af94bc1b9a)
+
+</details>
+
+---
+
+## Memory life cycle
+
+![](memory-lifecycle.svg)
+
+<details>
+
+_States in the diagram:_
+
+Memory is ...
+
+1. Non-paged. Memory pages are created on-demand by the OS.
+2. Mapped but not allocated. Hardware addresses are mapped to virtual addresses.
+3. Allocated. The program’s allocator takes responsibility for the memory.
+4. Allocated and "available" (uninitialized).
+5. Allocated and "active" (initialized). Reachable from Safe Rust.
+6. An object’s lifetime has finished, but the memory has not yet been reclaimed
+   by the allocator.
+
+_Discussion:_
+
+- In the previous example, `x` is in state _4_. Safe Rust requires all variables
+  to be in state _5_ at all times.
+- To move from state 4 to 5, you must write overwrite the uninitialized bytes
+  with values that are guaranteed to be valid. To do this, use `MaybeUninit`,
+  which we'll introduce in detail next.
+- To move from state 5 to 6, rely on Rust's borrow checker. State 6 is not
+  visible code.
+
+</details>
+
+---
+
+## Introducing `std::mem::MaybeUninit`
+
+```rust,editable
 fn mystery() -> u32 {
-    let mut x: u32 = unsafe { mem::MaybeUninit::uninit().assume_init() };
+    let x;
 
     x
 }
@@ -240,109 +124,75 @@ fn main() {
 }
 ```
 
-Initialization transforms that a value's bytes from an undetermined state to
-something that's guaranteed to be valid.
-
-As we've seen from the Boolean case, not every bit pattern is a valid value in
-Rust's `bool` type.
-
-When a value uninitialized, it's impossible to know what'.
-
-Rust requires every variable is _valid_. An important part of validity is
-ensuring that values are initialized before use.
-
-Getting this wrong is so unsafe that you cannot simply use the `unsafe` keyword
-to convince Rust to compile your code.
-
-</details>
-
----
-
-## Validity
-
-- What is validity?
-- Why is it important?
-
 <details>
 
-This segment of the course describes what that means and why it's important.
+### Discussion
 
-Validity related to other concepts that we've seen before, such as _undefined
-behavior_. Validity is a precondition for well-defined behavior.
+Because Safe Rust requires all memory to be _initialized_, but memory always
+starts as _uninitialized_, there must be some mechanism provided by the language
+to allow programmers to initialize memory. That is the job provided by
+`std::mem::MaybeUninit`.
 
-</details>
+## Demo
 
----
+Task: Alter the example so that it compiles by introducing `MaybeUninit` as a
+way for Rust programs to refer to uninitialized memory.
 
-## Validity
+Suggested change:
 
-<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">\
-<circle cx="200" cy="150" r="160"
-          fill="rgba(70, 130, 180, 0.3)"
-          stroke="rgba(70, 130, 180, 0.8)"
-          stroke-width="2"/>\
-<circle cx="200" cy="150" r="120" fill="rgba(255, 165, 0, 0.4)" stroke="rgba(255, 140, 0, 0.8)" stroke-width="2"/>\
-<text x="200" y="60" text-anchor="middle" font-size="18" fill="rgba(70, 130, 180, 1)">
-Bit patterns </text>\
-<text x="200" y="150" text-anchor="middle" font-size="18" fill="rgba(255, 140, 0, 1)">
-Valid values </text>\
-</svg>
+```rust
+use std::mem::MaybeUninit;
 
-<details>
+fn mystery() -> u32 {
+    let x: u32 = unsafe { MaybeUninit::uninit().assume_init() };
 
-Data types define what it means to be _valid_. For some types, such as integers,
-every bit pattern is a valid type. For many others though, there are some
-patterns which are not.
+    x
+}
 
-In Rust, references are not allowed to be NULL and `char` values must be valid
-Unicode scalar values.
-
-Outside of bit patterns, there are also other considerations. For example, many
-types impose rules that must be enforced that extend past. The way to find these
-rules is by the documentation. Therefore, we're also going to spend time
-examining docs.
-
-</details>
-
----
-
-## Why `MaybeUninit<T>`?
-
-```rust,editable
-```
-
-<details>
-
-Rust requires every variable to be initialized before use. More generally,
-compilers assume that all variables are properly initialized.
-
-But for FFI and for creating high performance data structures&mdash;sometimes
-referred to as getting stuff done&mdash;we need the ability to describe
-uninitialized buffers.
-
-</details>
-
----
-
-## Why care about initialization?
-
-```rust,editable
-fn create_1mb_buffer() -> Vec<u8> {
-    vec![0; 1_000_000]
+fn main() {
+    let a = mystery();
+    println!("{a}")
 }
 ```
 
-<details>
+Emphasize that this code compiles and runs, but calling `mystery()` immediately
+triggers _undefined behavior_.
 
-You're probably aware that this code allocates a new block of memory. It also
-has a second phase that is slightly more subtle. After allocation, every byte
-has its bits set to zero.
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=e722f3f7bbe204280426e750a305b1c8)
 
-However, there are cases where this second step is unnecessary. For example, if
-we're using this buffer for I/O, then we're going to overwrite the memory with
-whatever data that is going to be provided.
+## Demo - Part 2
+
+Introduce the `::zeroed()` static method to increase determinism.
+
+```rust
+fn mystery() -> u32 {
+    let x: u32 = unsafe { MaybeUninit::zeroed().assume_init() };
+
+    x
+}
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=163f0a5379859626f25875427ef0af41)
+
+## Demo - Part 3
+
+Write a defined, valid, value to the memory taken by `MaybeUninit`.
+
+```rust
+fn mystery() -> u32 {
+    let x unsafe { 
+        let mut bytes = MaybeUninit::uninit();
+        std::ptr::write(bytes.as_mut_ptr(), 42u32);
+        bytes.assume_init()
+    }
+
+    x
+}
+```
 
 </details>
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a44f06541bbd1ac1d5cc4c186e43255a)
 
 ---
 
@@ -351,15 +201,15 @@ whatever data that is going to be provided.
 ```rust
 use std::mem::MaybeUninit;
 
-/// Builds a sparse row where only certain positions have values
-struct ArrayFastBuilder<const N: usize> {
-    data: [MaybeUninit<f64>; N],
+/// A sparse on-stack array that is quick to create because it doesn't worry about initializing the underlying memory
+pub struct ArrayFastBuilder<const N: usize, T: Default> {
+    data: [MaybeUninit<T>; N],
     initialized: [bool; N],
     count: usize,
 }
 
-impl<const N: usize> ArrayFastBuilder<N> {
-    fn new() -> Self {
+impl<const N: usize, T: Default> ArrayFastBuilder<N, T> {
+    pub fn new() -> Self {
         Self {
             data: unsafe { MaybeUninit::uninit().assume_init() },
             initialized: [false; N],
@@ -367,7 +217,7 @@ impl<const N: usize> ArrayFastBuilder<N> {
         }
     }
 
-    fn set(&mut self, index: usize, value: f64) -> Result<(), &'static str> {
+    pub fn set(&mut self, index: usize, value: T) -> Result<(), &'static str> {
         if index >= N {
             return Err("Index out of bounds");
         }
@@ -381,36 +231,41 @@ impl<const N: usize> ArrayFastBuilder<N> {
         Ok(())
     }
 
-    fn get(&self, index: usize) -> Option<f64> {
+    pub fn get(&self, index: usize) -> Option<&T> {
         if index < N && self.initialized[index] {
-            Some(unsafe { self.data[index].assume_init() })
+            Some(unsafe { self.data[index].assume_init_ref() })
         } else {
             None
         }
     }
 
-    fn into_array(self, default: f64) -> [f64; N] {
-        let mut result: [MaybeUninit<f64>; N] = std::array::from_fn(|i| {
-            if self.initialized[i] {
-                self.data[i] // Already initialized
+    pub fn count(&self) -> usize {
+        self.count
+    }
+
+    pub fn into_array(self) -> [T; N] {
+        let mut result: [MaybeUninit<T>; N] =
+            unsafe { MaybeUninit::uninit().assume_init() };
+
+        for i in 0..N {
+            result[i] = if self.initialized[i] {
+                unsafe { std::ptr::read(&self.data[i]) }
             } else {
-                MaybeUninit::new(default)
-            }
-        });
+                MaybeUninit::new(T::default())
+            };
+        }
 
         unsafe {
-            std::ptr::read(
-                &result as *const [MaybeUninit<f64>; N] as *const [f64; N],
-            )
+            std::ptr::read(&result as *const [MaybeUninit<T>; N] as *const [T; N])
         }
     }
 
-    fn into_sparse_vec(self) -> Vec<(usize, f64)> {
+    pub fn into_sparse_vec(self) -> Vec<(usize, T)> {
         let mut result = Vec::with_capacity(self.count);
 
         for (i, is_init) in self.initialized.iter().enumerate() {
             if *is_init {
-                let value = unsafe { self.data[i].assume_init() };
+                let value = unsafe { std::ptr::read(&self.data[i]).assume_init() };
                 result.push((i, value));
             }
         }
@@ -421,6 +276,13 @@ impl<const N: usize> ArrayFastBuilder<N> {
 ```
 
 <details>
+
+Discussion:
+
+You've been given this code to review.
+
+A sparse on-stack array that is quick to create because it doesn't worry about
+initializing the underlying memory
 
 Here is an application of what we just saw. `ArrayFastBuilder` reserves space on
 the stack for the contents, but skips avoids zeroing that array when it is
@@ -636,3 +498,4 @@ fn without_zeroing() -> Vec<u8> {
 <details>
 
 </details>
+````

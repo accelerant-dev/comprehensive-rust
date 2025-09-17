@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg fill="none" stroke-linecap="square" stroke-miterlimit="10" version="1.1" viewBox="0 0 884 284" xmlns="http://www.w3.org/2000/svg">
+ <g fill-rule="evenodd">
+  <path d="m376 106c0-14 11-25 25-25h99c6.6 0 13 2.6 17 7.2 4.6 4.6 7.2 11 7.2 17v117c0 14-11 25-25 25h-99c-14 0-25-11-25-25z" stroke="#b7b7b7" stroke-linecap="butt" stroke-linejoin="round"/>
+  <g stroke="#666" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2">
+   <path d="m456 161c0-15 22-31 55-43 17-5.8 36-11 56-14 10-1.7 21-3 32-3.9 5.4-0.45 11-0.8 16-1 1.4-0.059 2.7-0.11 4.1-0.15l0.38-0.011"/>
+   <path d="m631 227c-44 0-88-7.2-121-18-16-5.4-30-12-40-18-2.4-1.7-4.5-3.4-6.4-5.1-0.93-0.87-1.8-1.7-2.6-2.6-0.39-0.44-0.77-0.88-1.1-1.3-0.18-0.22-0.35-0.44-0.52-0.66l-0.13-0.17"/>
+   <path d="m826 172c0 14-23 28-57 38-17 5.2-37 9.5-58 13-11 1.5-22 2.7-33 3.5-5.6 0.41-11 0.72-17 0.93-1.4 0.052-2.8 0.099-4.2 0.14l-0.76 0.02"/>
+   <path d="m645 99c90 0 181 30 181 60"/>
+  </g>
+  <path d="m346 78c0-23 18-41 41-41h479c11 0 21 4.3 29 12 7.7 7.7 12 18 12 29v164c0 23-18 41-41 41h-479c-23 0-41-18-41-41z" fill="#000" fill-opacity="0"/>
+  <path d="m346 78c0-23 18-41 39-41h459c10 0 20 4.3 28 12 7.4 7.7 12 18 12 29v164c0 23-18 41-39 41h-459c-22 0-39-18-39-41z" stroke="#999" stroke-linecap="butt" stroke-linejoin="round" stroke-width=".98"/>
+  <path d="m376 106c0-14 11-25 25-25h99c6.6 0 13 2.6 17 7.2 4.6 4.6 7.2 11 7.2 17v117c0 14-11 25-25 25h-99c-14 0-25-11-25-25z" fill="#000" fill-opacity="0"/>
+  <path d="m0.5 58c0-13 11-24 24-24h97c6.4 0 13 2.6 17 7.1 4.5 4.5 7.1 11 7.1 17v198c0 13-11 24-24 24h-97c-13 0-24-11-24-24z" fill="#000" fill-opacity="0"/>
+  <path d="m0.5 58c0-13 11-24 24-24h97c6.4 0 13 2.6 17 7.1 4.5 4.5 7.1 11 7.1 17v198c0 13-11 24-24 24h-97c-13 0-24-11-24-24z" stroke="#999" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="m175 61c0-13 11-24 24-24h97c6.4 0 13 2.6 17 7.1 4.5 4.5 7.1 11 7.1 17v198c0 13-11 24-24 24h-97c-13 0-24-11-24-24z" fill="#000" fill-opacity="0"/>
+  <path d="m175 61c0-13 11-24 24-24h97c6.4 0 13 2.6 17 7.1 4.5 4.5 7.1 11 7.1 17v198c0 13-11 24-24 24h-97c-13 0-24-11-24-24z" stroke="#999" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="m358 0h110v38h-110z" fill="#000" fill-opacity="0"/>
+  <path d="m632 99c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z" fill="#000" fill-opacity="0"/>
+  <path d="m632 99c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+ </g>
+ <g fill="#000" fill-rule="evenodd">
+  <g fill-opacity="0">
+   <path d="m20 0h131v38h-131z"/>
+   <path d="m445 165c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z"/>
+   <path d="m67 162c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9s1.9 2.9 1.9 4.7c0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z"/>
+   <path d="m237 165c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6s-6.6-3-6.6-6.6z"/>
+  </g>
+  <path d="m832 162c1.8 3.2 0.74 7.2-2.4 9-1.5 0.87-3.3 1.1-5 0.66-1.7-0.45-3.1-1.6-4-3.1-1.8-3.2-0.74-7.2 2.4-9 3.2-1.8 7.2-0.74 9 2.4z"/>
+ </g>
+ <path d="m819 165c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6s-6.6-3-6.6-6.6z" fill-rule="evenodd" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+ <g fill="#000" fill-opacity="0" fill-rule="evenodd">
+  <path d="m174 0h148v38h-148z"/>
+  <path d="m376 47h110v38h-110z"/>
+  <path d="m631 227c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9s1.9 2.9 1.9 4.7c0 3.6-3 6.6-6.6 6.6s-6.6-3-6.6-6.6z"/>
+ </g>
+ <g fill-rule="evenodd">
+  <path d="m631 227c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9s1.9 2.9 1.9 4.7c0 3.6-3 6.6-6.6 6.6s-6.6-3-6.6-6.6z" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="m826 172c0 28-91 55-182 55" fill="#000" fill-opacity="0"/>
+  <path d="m656 224-9 3.4 9.1 3.2z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m456 161c0-31 88-62 176-62" fill="#000" fill-opacity="0"/>
+  <path d="m620 102 9-3.4-9.1-3.2z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m645 99c90 0 181 30 181 60" fill="#000" fill-opacity="0"/>
+  <path d="m631 227c-88 0-175-29-175-57" fill="#000" fill-opacity="0"/>
+  <path d="m463 180-6.3-7.3 0.18 9.7z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m447 170c0 13-50 27-99 27-50 8e-3 -99-13-99-27" fill="#000" fill-opacity="0"/>
+  <path d="m447 170c0 13-50 27-99 27-25 4e-3 -50-3.4-68-8.4-9.3-2.5-17-5.5-22-8.6-0.17-0.098-0.34-0.2-0.5-0.3l-0.45-0.27" stroke="#666" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m258 177-8.3-4.9 3.2 9.1z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m239 170c0 13-40 27-80 27-40-0.43-80-15-80-30" fill="#000" fill-opacity="0"/>
+  <path d="m239 170c0 13-40 27-80 27-20-0.21-40-4-55-9.7-7.5-2.8-14-6.1-18-9.6-0.27-0.22-0.54-0.44-0.8-0.66l-0.065-0.057" stroke="#666" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m87 175-7.4-6.2 1.7 9.5z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m78 157c0-13 40-27 80-27 40 0.43 80 15 80 30" fill="#000" fill-opacity="0"/>
+  <path d="m78 157c0-13 40-27 80-27 20 0.21 40 4 55 9.7 7.5 2.8 14 6.1 18 9.6 0.27 0.22 0.54 0.44 0.8 0.66l0.065 0.057" stroke="#666" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m230 152 7.4 6.2-1.7-9.5z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+  <path d="m248 161c0-13 50-27 99-27 50 8e-3 99 13 99 27" fill="#000" fill-opacity="0"/>
+  <path d="m248 161c0-13 50-27 99-27 25 4e-3 50 3.4 68 8.4 9.3 2.5 17 5.5 22 8.6 0.17 0.099 0.34 0.2 0.5 0.3l0.48 0.29" stroke="#666" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m436 153 8.3 5-3.1-9.1z" fill="#666" stroke="#666" stroke-linecap="butt" stroke-width="2"/>
+ </g>
+ <g fill="#000" fill-rule="evenodd">
+  <g fill-opacity="0">
+   <path d="m56 99h35v35h-35z"/>
+   <path d="m226 97h35v35h-35z"/>
+   <path d="m434 94h35v35h-35z"/>
+   <path d="m620 59h35v35h-35z"/>
+   <path d="m831 147h35v35h-35z"/>
+   <path d="m621 234h35v35h-35z"/>
+  </g>
+  <path d="m635 99c0-2.1 1.7-3.8 3.7-3.8 0.99 0 1.9 0.4 2.7 1.1 0.7 0.71 1.1 1.7 1.1 2.7 0 2.1-1.7 3.8-3.7 3.8-2.1 0-3.7-1.7-3.7-3.8z"/>
+ </g>
+ <g fill-rule="evenodd" stroke="#000" stroke-linecap="butt" stroke-linejoin="round">
+  <path d="m635 99c0-2.1 1.7-3.8 3.7-3.8 0.99 0 1.9 0.4 2.7 1.1 0.7 0.71 1.1 1.7 1.1 2.7 0 2.1-1.7 3.8-3.7 3.8-2.1 0-3.7-1.7-3.7-3.8z"/>
+  <path d="m447 165c0-2.1 1.7-3.8 3.7-3.8 0.99 0 1.9 0.4 2.7 1.1 0.7 0.71 1.1 1.7 1.1 2.7 0 2.1-1.7 3.8-3.7 3.8-2.1 0-3.7-1.7-3.7-3.8z" fill="#000"/>
+  <path d="m634 227c0-2.1 1.7-3.8 3.7-3.8 0.99 0 1.9 0.4 2.7 1.1 0.7 0.71 1.1 1.7 1.1 2.7 0 2.1-1.7 3.8-3.7 3.8-2.1 0-3.7-1.7-3.7-3.8z" fill="#000"/>
+ </g>
+ <g fill="#63b0a9" font-size="16px" stroke-width="11">
+  <g font-family="'Oblivian Text'" font-weight="bold">
+   <text x="699.57312" y="67.49308" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="699.57312" y="67.49308" fill="#000000" font-family="Arial" font-size="16px" font-style="italic" font-weight="normal">Initialization</tspan></text>
+   <text x="524.85815" y="65.702438" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="524.85815" y="65.702438" fill="#000000" font-family="Arial" font-size="16px" font-style="italic" font-weight="normal">alloc()</tspan></text>
+   <text x="527.5144" y="265.30215" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="527.5144" y="265.30215" fill="#000000" font-family="Arial" font-size="16px" font-style="italic" font-weight="normal">free()</tspan></text>
+   <text x="710.19489" y="266.61523" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="710.19489" y="266.61523" fill="#000000" font-family="Arial" font-size="16px" font-style="italic" font-weight="normal">Drop</tspan></text>
+   <text x="18.474846" y="30.060057" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="18.474846" y="30.060057" fill="#000000" font-family="Arial" font-size="16px" font-weight="normal">Hardware</tspan></text>
+   <text x="198.30305" y="30.060057" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="198.30305" y="30.060057" fill="#000000" font-family="Arial" font-size="16px" font-weight="normal">OS</tspan></text>
+   <text x="382.81085" y="30.060057" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="382.81085" y="30.060057" fill="#000000" font-family="Arial" font-size="16px" font-weight="normal">Program</tspan></text>
+   <text x="393.8367" y="73.233086" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="393.8367" y="73.233086" fill="#000000" font-family="Arial" font-size="16px" font-weight="normal">Allocator</tspan></text>
+  </g>
+  <text x="851.625" y="170.8799" font-family="Arial" font-style="italic" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="851.625" y="170.8799" fill="#000000" font-style="normal">5</tspan></text>
+  <text x="632.83997" y="84.080101" font-family="Arial" font-style="italic" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="632.83997" y="84.080101" fill="#000000" font-style="normal">4</tspan></text>
+ </g>
+ <path d="m445 165c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z" fill-rule="evenodd" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+ <path d="m237 165c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9 1.2 1.2 1.9 2.9 1.9 4.7 0 3.6-3 6.6-6.6 6.6s-6.6-3-6.6-6.6z" fill-rule="evenodd" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+ <g fill="#000000" font-family="Arial" font-size="16px" font-style="italic" stroke-width="11">
+  <text x="446.76056" y="134.60228" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="446.76056" y="134.60228" font-style="normal">3</tspan></text>
+  <text x="238.96758" y="134.70384" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="238.96758" y="134.70384" font-style="normal">2</tspan></text>
+  <text x="69.30986" y="134.70384" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="69.30986" y="134.70384" font-style="normal">1</tspan></text>
+  <text x="633.62952" y="254.92998" opacity=".92" style="line-height:1;text-decoration-color:#000000" xml:space="preserve"><tspan x="633.62952" y="254.92998" font-style="normal">6</tspan></text>
+ </g>
+ <path d="m67 162c0-3.6 3-6.6 6.6-6.6 1.8 0 3.4 0.7 4.7 1.9s1.9 2.9 1.9 4.7c0 3.6-3 6.6-6.6 6.6-3.6 0-6.6-3-6.6-6.6z" fill-rule="evenodd" stroke="#000" stroke-linecap="butt" stroke-linejoin="round"/>
+ <g fill="#000" stroke="#999" stroke-dasharray="3, 3" stroke-linecap="round">
+  <path d="m718 75-22 19" opacity=".92"/>
+  <path d="m718 249-22-19" opacity=".92"/>
+  <path d="m556 75 22 19" opacity=".92"/>
+  <path d="m556 249 22-19" opacity=".92"/>
+ </g>
+</svg>
