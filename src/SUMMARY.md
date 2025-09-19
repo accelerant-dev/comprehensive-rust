@@ -443,7 +443,9 @@
 # Unsafe
 
 - [Welcome](unsafe-deep-dive/welcome.md)
-- [Setup](unsafe-deep-dive/setup.md)
+  - [Goals](unsafe-deep-dive/welcome/goals.md)
+  - [Intended audience](unsafe-deep-dive/welcome/intended-audience.md)
+  - [Setup](unsafe-deep-dive/welcome/setup.md)
 - [Motivations](unsafe-deep-dive/motivations.md)
   - [Interoperability](unsafe-deep-dive/motivations/interop.md)
   - [Data Structures](unsafe-deep-dive/motivations/data-structures.md)
@@ -454,6 +456,7 @@
   - [Data structures are safe](unsafe-deep-dive/foundations/data-structures-are-safe.md)
   - [Actions might not be](unsafe-deep-dive/foundations/actions-might-not-be.md)
   - [Less powerful than it seems](unsafe-deep-dive/foundations/less-powerful.md)
+- [Epilogue](unsafe-deep-dive/epilogue.md)
 
 ---
 
