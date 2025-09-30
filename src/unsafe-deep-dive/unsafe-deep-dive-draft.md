@@ -80,15 +80,13 @@ possible. Avoid deep explanations.
 
 # Warm up: using an unsafe block
 
-```rust
-// TODO: fix the compiler errors
-
+```rust,editable
 fn main() {
     let mut boxed = Box::new(123);
     let a: *mut i32 = &mut *boxed as *mut _;
     let b: *mut i32 = std::ptr::null_mut();
 
-    println!("{:?}", a.as_mut());
+    println!("{:?}", *a);
     println!("{:?}", b.as_mut());
 }
 ```
@@ -97,10 +95,21 @@ fn main() {
 
 _Instructions_
 
-- Introduce `.as_mut()`; converts pointers to Options
-- Wrap the calls in unsafe
-- Add a safety comment above the two calls saying that we know that the memory
-  is valid
+- Introduce code
+  - [Line 3] Creates raw pointer to the `123` by de-referencing the box,
+    creating a new reference and casting the new reference as a pointer
+  - [Line 4] Creates raw pointer with a NULL value
+  - [Line 7] Converts pointers to Options Introduce `.as_mut()`;
+- Compile to reveal the error messages
+- Discuss
+  - [Line 6] De-referencing a raw pointer
+  - [Line 7] Calling a function that's marked as unsafe
+- Fix the code and compile again to show the working program
+- Add safety comments above the two calls saying that we know that the memory is
+  valid
+- Discuss the possibility of using a single unsafe block rather than one for
+  each line. Mention that we want to cover a single case with an unsafe block to
+  avoid masking errors and to make safety comments as specific as possible
 
 </details>
 
