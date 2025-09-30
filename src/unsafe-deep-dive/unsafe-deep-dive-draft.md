@@ -137,17 +137,16 @@ fn main() {
 
 <details>
 
-_Instructions_
-
-- mark `ptr_to_option` as unsafe and document any safety pre-conditions
+<!-- TODO: finish script -->
 
 _Script_
 
-The `ptr_to_option` function is a port of the
-[`as_mut` method on pointers][as_mut] that we used in the previous slide.
+The `ptr_to_option` function is our own version of the [`as_mut` method][as_mut]
+on pointers that we used in the previous slide.
 
 _Instructions_
 
+- Mark `ptr_to_option` as unsafe and document any safety pre-conditions
 - Add a safety section to the docstring
 - Add a safety comment in the body of the function
 - Click through to the std lib [docs for `as_mut`][as_mut]
