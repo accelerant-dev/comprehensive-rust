@@ -163,7 +163,7 @@ struct StatusIndicator(AtomicIsize32)
 _Script_
 
 `Send` and `Sync` are so-called _unsafe traits_ relating to concurrency. What
-does the it mean to implement an unsafe trait?
+does it mean to implement an unsafe trait?
 
 When you implement them for your types, you're assuming responsibility for
 upholding Rust's safety guarantees. When a library author defines an unsafe
@@ -182,8 +182,8 @@ green light to implement those types ourselves.
 So let's go ahead and implement them.
 
 The syntax for implementing `Send` and `Sync` is quite minimal. They're marker
-types, so they don't have any methods. The vast majority of the time taken to
-implement them is ensuring that your implementation follows Rust's rules.
+traits, so they don't have any methods. The vast majority of the time taken to
+implement them is spent ensuring that your implementation follows Rust's rules.
 
 </details>
 
