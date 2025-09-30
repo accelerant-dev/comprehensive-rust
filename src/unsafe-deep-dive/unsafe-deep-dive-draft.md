@@ -130,8 +130,8 @@ fn main() {
     let a: *mut i32 = &mut *boxed as *mut _;
     let b: *mut i32 = std::ptr::null_mut();
 
-    println!("{:?}", ptr_to_option(a));
-    println!("{:?}", ptr_to_option(a));
+    println!("{:?}", unsafe { *a });
+    println!("{:?}", ptr_to_option(b));
 }
 ```
 
@@ -146,7 +146,9 @@ on pointers that we used in the previous slide.
 
 _Instructions_
 
-- Mark `ptr_to_option` as unsafe and document any safety pre-conditions
+- Mark `ptr_to_option` as unsafe
+- Document safety pre-conditions
+  - Refer to the [original's documentation][as_mut]
 - Add a safety section to the docstring
 - Add a safety comment in the body of the function
 - Click through to the std lib [docs for `as_mut`][as_mut]
