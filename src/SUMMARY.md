@@ -442,6 +442,7 @@
 
 # Unsafe
 
+- [Whole course draft](unsafe-deep-dive/unsafe-deep-dive-draft.md)
 - [Welcome](unsafe-deep-dive/welcome.md)
   - [Goals](unsafe-deep-dive/welcome/goals.md)
   - [Intended audience](unsafe-deep-dive/welcome/intended-audience.md)
