@@ -117,9 +117,7 @@ _Instructions_
 
 # Warm up: defining an unsafe function
 
-```rust
-// TODO: mark ptr_to_option as unsafe and document any
-
+```rust,editable
 /// Convert a pointer to an `Option<T>`
 ///
 /// Returns `None` when `val` is null, otherwise wraps `val` in `Some`.
@@ -139,18 +137,22 @@ fn main() {
 
 <details>
 
+_Instructions_
+
+- mark `ptr_to_option` as unsafe and document any safety pre-conditions
+
 _Script_
 
-The `ptr_to_option` function is a port of the [`as_mut` method on pointers] that
-we used in the previous slide.
+The `ptr_to_option` function is a port of the
+[`as_mut` method on pointers][as_mut] that we used in the previous slide.
 
 _Instructions_
 
 - Add a safety section to the docstring
 - Add a safety comment in the body of the function
-- Click through to the std lib docs for `as_mut`
+- Click through to the std lib [docs for `as_mut`][as_mut]
 
-[`as_mut` method on pointers]: https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut
+[as_mut]: https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut
 
 </details>
 
@@ -158,16 +160,18 @@ _Instructions_
 
 # Warm up: unsafe traits
 
-```rust
-# TODO: finish with full paths
+```rust,editable
+struct StatusIndicator(std::sync::atomic::AtomicI32);
 
-struct StatusIndicator(AtomicIsize32)
-
-// impl Send for Indicator {};
-// impl Sync for Indicator {};
+// impl std::marker::Send for StatusIndicator {}
+// impl std::marker::Sync for StatusIndicator {}
 ```
 
 <details>
+
+_Instructions_
+
+- Follow the script below
 
 _Script_
 
@@ -188,11 +192,53 @@ different values--are both `Send` and `Sync`. As we're not adding any additional
 behavior, we can be confident that `StatusIndicator` it follows that we have a
 green light to implement those types ourselves.
 
-So let's go ahead and implement them.
+So let's go ahead and implement them. [Uncomment lines; compile to show the
+error; add the unsafe keyword; re-compile]
 
 The syntax for implementing `Send` and `Sync` is quite minimal. They're marker
 traits, so they don't have any methods. The vast majority of the time taken to
 implement them is spent ensuring that your implementation follows Rust's rules.
+
+_Instructions (cont.)_
+
+> _Note:_
+>
+> Avoid spending too much time here. The aim is to inform the audience that
+> these traits and types have quirks.
+
+- Open the standard library's documentation for
+  - [`Send`][send-docs]
+    - Discussion points
+      - "Types that can be transferred across thread boundaries [by copying the
+        bytes exactly as they currently are in memory]"
+      - "This trait is automatically implemented when the compiler determines
+        it’s appropriate." - similar to `Sized`
+      - Not notation, i.e. `impl !Send for Args`
+    - Raise question: What are the safety pre-conditions for `Send`?
+  - [`Sync`][sync-docs]
+    - Contrast with `Send`: `Sync` primarily relates to sharing references to
+      values, whereas `Send` primarily relates to sharing values themselves
+    - Sync has some complex semantics, esp. with
+      - Confusion between `&T` and `&mut T`
+      - Interior mutability
+      - Pointers guaranteed to be non-NULL, i.e. "`impl<T> !Sync for NonNull<T>`
+        NonNull pointers are not Sync because the data they reference may be
+        aliased."
+    - Raise question: What are the safety pre-conditions for `Sync`?
+  - [atomic operations][atomic-docs].
+    - If your audience has a C++ background, mention that the semantics of Rust
+      and C++ differ.
+    - Sentences to highlight and points to emphasize
+      - **Portability** section
+        - Atomic operations may be emulated
+        - "Atomic types and operations are not guaranteed to be wait-free."
+      - **Atomic accesses to read-only memory** section
+        - "In general, all atomic accesses on read-only memory are undefined
+          behavior."
+
+[atomic-docs]: https://doc.rust-lang.org/std/sync/atomic/index.html
+[send-docs]: https://doc.rust-lang.org/std/marker/trait.Send.html
+[sync-docs]: https://doc.rust-lang.org/std/marker/trait.Sync.html
 
 </details>
 
