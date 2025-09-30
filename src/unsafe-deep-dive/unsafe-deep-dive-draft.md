@@ -445,3 +445,37 @@ MaybeUninit
 - idea: use `Box::new_uninit()` as a bridge to `MaybeUninit<T>`
 
 ---
+
+# Examples of safety comments
+
+---
+
+# Examples of safety comments : Re-state common knowledge
+
+[std::ptr::NonNull.from_ref]:
+
+```rust
+pub const fn from_ref(r: &T) -> Self {
+    // SAFETY: A reference cannot be null.
+    unsafe { NonNull { pointer: r as *const T } }
+}
+```
+
+<details>
+
+_Script_
+
+Even though it can feel redundant and obvious, it's still useful to re-state
+safety rationale that is common knowledge in the Rust community.
+
+Here's an example from the standard library. We have a method that takes a
+shared reference and converts it to a pointer.
+
+The authors take the time to re-state one of the first rules of references, that
+they cannot be null.
+
+[std::ptr::NonNull.from_ref]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.from_ref
+
+</details>
+
+---
