@@ -176,13 +176,82 @@ _Instructions_
 
 _Script_
 
-`Send` and `Sync` are so-called _unsafe traits_ relating to concurrency. What
-does it mean to implement an unsafe trait?
+`Send` and `Sync` are so-called _unsafe traits_ relating to concurrency.
 
-When you implement them for your types, you're assuming responsibility for
-upholding Rust's safety guarantees. When a library author defines an unsafe
-trait, it means that they're providing an interface that carries risks that the
-compiler cannot protect the implementer from.
+What does it mean to implement an unsafe trait?
+
+To answer that, we first need to ensure that everyone agrees what a trait is.
+
+[Asking audience] What is a trait?
+
+[Gather ideas and discuss]
+
+Traits are normally described as an _interface_ [Java/Go] or _protocol_
+[Python], or perhaps even a type class if you have a Haskell background.
+
+These descriptions focus on the methods that the trait provides. They focus on
+the shared behavior.
+
+I would like to suggest a slightly different perspective that places less
+emphasis on behavior. What about, "traits as sets of requirements"?
+
+Allow me to explain what I mean...
+
+When you define a trait, you're specifying a set of conditions that types must
+satisfy before they're able to implement them.
+
+And when you implement a trait, you're providing an assurance to the type system
+that the type meets the trait's requirements.
+
+[PAUSE]
+
+For example, let's consider the [`Eq`] trait. When you learned Rust, you may
+have been slightly confused as to why there's a `PartialEq` trait that is used
+for the equality operator, but there is also an additional trait `Eq` that
+provides no new methods.
+
+After some time, you discovered that although it provides no new methods, `Eq`
+does provide new semantics.
+
+For a type to implement `Eq`, every value of that type must be equal to itself.
+Floating point NaN values do not uphold this requirement. Therefore, `f32` and
+`f64` are not `Eq` types.
+
+Formally speaking, `Eq` types are said to upload the [_reflexive relation_].
+
+[PAUSE]
+
+Thinking of traits this way makes it easier to understand what the purpose of a
+_marker trait_ is.
+
+Although it doesn't provide any new methods, marker traits provide information
+to the type system. They confirm that types that implement them satisfy the
+requirements.
+
+Thinking of traits this way also makes it easier to understand an unsafe trait
+is.
+
+An unsafe trait is a trait that is special because if you fail to meet its
+requirements, you will be violating Rust's safety guarantees.
+
+[PAUSE]
+
+[Asking audience] Any questions at this point? It's okay to disagree with me
+about any of this -- I would be interested to hear any thoughts.
+
+[PAUSE]
+
+Okay, now that we've established what a trait is, let's take a closer look at
+the two traits here, `Send` and `Sync`.
+
+The first thing that you might notice is that they're defined within the
+`std::marker` module of the standard library. That is an indication that `Send`
+and `Sync` are used to enrich the type system.
+
+Let's reiterate. When you implement either of these traitsfor your types, you're
+assuming responsibility for upholding Rust's safety guarantees. When a library
+author defines an unsafe trait, it means that they're providing an interface
+that carries risks that the compiler cannot protect the implementer from.
 
 The burden is on the implementer to ensure that the trait's safety
 pre-conditions are satisfied.
@@ -199,6 +268,11 @@ error; add the unsafe keyword; re-compile]
 The syntax for implementing `Send` and `Sync` is quite minimal. They're marker
 traits, so they don't have any methods. The vast majority of the time taken to
 implement them is spent ensuring that your implementation follows Rust's rules.
+
+[_reflexive relation_]: https://en.wikipedia.org/wiki/Reflexive_relation
+[`Eq`]: https://doc.rust-lang.org/std/cmp/trait.Eq.html
+
+<!-- TODO: move the content below to later in the course; this is suppose to be a warm up -->
 
 _Instructions (cont.)_
 
