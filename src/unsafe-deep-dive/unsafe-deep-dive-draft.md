@@ -170,6 +170,15 @@ struct StatusIndicator(std::sync::atomic::AtomicI32);
 
 <details>
 
+Material to cover
+
+- Traits for anyone that may still be somewhat unfamiliar; foster an idea that
+  they are sets of requirements
+- `Send` and `Sync` traits and their relationship to concurrency, an area where
+  safety concerns are prominent
+- Marker traits add information to the type system
+- `unsafe` traits have requirements with safety consequences
+
 _Instructions_
 
 - Follow the script below
