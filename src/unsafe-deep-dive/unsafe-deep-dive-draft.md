@@ -99,7 +99,7 @@ _Instructions_
   - [Line 3] Creates raw pointer to the `123` by de-referencing the box,
     creating a new reference and casting the new reference as a pointer
   - [Line 4] Creates raw pointer with a NULL value
-  - [Line 7] Converts pointers to Options Introduce `.as_mut()`;
+  - [Line 7] Converts the raw pointer to an Option with `.as_mut()`;
 - Compile to reveal the error messages
 - Discuss
   - [Line 6] De-referencing a raw pointer
@@ -319,21 +319,22 @@ _Instructions (cont.)_
 
 ---
 
-We know that writing code without the guarantees that Rust provides ...
+# Why unsafe
 
 > “Use-after-free (UAF), integer overflows, and out of bounds (OOB) reads/writes
 > comprise 90% of vulnerabilities with OOB being the most common.”
 >
-> --— **Jeff Vander Stoep and Chong Zang**, Google.
+> &mdash; **Jeff Vander Stoep and Chong Zang**, Google.
 > "[Queue the Hardening Enhancements]"
 
-... so why is `unsafe` part of the language?
+We know that writing code without the guarantees that Rust provides is
+dangerous, so why is `unsafe` part of the language?
 
 [Queue the Hardening Enhancements]: https://security.googleblog.com/2019/05/queue-hardening-enhancements.html
 
 ---
 
-# Why unsafe
+# Why unsafe (cont.)
 
 - Necessity
 - Usefulness
@@ -527,7 +528,7 @@ MaybeUninit
 
 # Examples of safety comments : Re-state common knowledge
 
-[std::ptr::NonNull.from_ref]:
+From [`std::ptr::NonNull.from_ref`]:
 
 ```rust
 pub const fn from_ref(r: &T) -> Self {
@@ -549,7 +550,7 @@ shared reference and converts it to a pointer.
 The authors take the time to re-state one of the first rules of references, that
 they cannot be null.
 
-[std::ptr::NonNull.from_ref]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.from_ref
+[`std::ptr::NonNull.from_ref`]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.from_ref
 
 </details>
 
