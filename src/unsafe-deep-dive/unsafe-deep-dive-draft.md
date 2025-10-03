@@ -99,7 +99,7 @@ _Instructions_
   - [Line 3] Creates raw pointer to the `123` by de-referencing the box,
     creating a new reference and casting the new reference as a pointer
   - [Line 4] Creates raw pointer with a NULL value
-  - [Line 7] Converts the raw pointer to an Option with `.as_mut()`;
+  - [Line 7] Converts the raw pointer to an Option with [`.as_mut()`][as_mut];
 - Compile to reveal the error messages
 - Discuss
   - [Line 6] De-referencing a raw pointer
@@ -110,6 +110,8 @@ _Instructions_
 - Discuss the possibility of using a single unsafe block rather than one for
   each line. Mention that we want to cover a single case with an unsafe block to
   avoid masking errors and to make safety comments as specific as possible
+
+[as-mut]: https://doc.rust-lang.org/stable/std/primitive.pointer.html#method.as_mut
 
 </details>
 
@@ -525,42 +527,351 @@ allocator.
 
 ---
 
-MaybeUninit
+# Rules of the game
 
-- idea: use `Box::new_uninit()` as a bridge to `MaybeUninit<T>`
+Learning objectives
+
+- mental model
+- terminology
+
+<details>
+
+The goal of this section is to introduce the terms "undefined behavior",
+"sound", "unsound", and the mental framework behind soundness of Rust code that
+contains unsafe.
+
+</details>
 
 ---
 
-# Examples of safety comments
+# Rules of the game : defining undefined behavior
+
+- what it is
+- when it occurs
+- why it is dangerous
+  - breaks tooling
+    - compiler optimization
+    - code analysis, incl. model checkers and formal reasoning
+- why it is difficult
+
+<details>
+
+We've talked a fair amount so far in the class about the term _undefined
+behaviour_. The next few slides are dedicated to explaining what it is and why
+it's a problem.
+
+But what does it actually mean?
+
+While it may sound like exaggeration, _undefined behahavior_ means that anything
+can happen at runtime. Anything at all.
+
+Let's look at why.
+
+Compilers use rules to decide what to optimize.
+
+Compilers attempt to optimize in two directions. First, they try to make the
+code go faster. Secondly, they try to make the generated code shorter. Those two
+directions are sometimes at odds, but let's ignore that for now. We can talk
+about Pareto-optimal frontiers over lunch.
+
+Let's say there are two ways to compile your code that produce the same result.
+Other things being equal the compiler will chose the faster code.
+
+For example, in your source code, you might have tried to detect whether a
+number is even or odd by diving by 2 and checking the remainder with the modulus
+operation. Compiler engineers have seen this trick too! They will ignore that
+expression and replace it with a comparison with the least significant bit. For
+even numbers, the last bit of an integer is zero. For odd numbers, it's one.
+
+Integer division is quite slow within a computer and compiler will often seek to
+replace division with something that's functionally equivalent.
+
+More broadly, compilers treat your source code as intent rather than
+prescriptive.
+
+</details>
 
 ---
 
-# Examples of safety comments : Re-state common knowledge
+# Rules of the game : defining undefined behavior : what it is
 
-From [`std::ptr::NonNull.from_ref`]:
+Effects that your compiler assumes are impossible to occur:
+
+- dereferencing a null pointer
+- accessing an array out of bounds
+- signed integer overflow
+- data races
+- reading from uninitialized memory
+
+<details>
+
+Each of these is a case of undefined behavior. Your compiler will assume they
+don't occur, and will optimize accordingly.
+
+- **dereferencing a null pointer**, because pointers are never null
+- **accessing an array out of bounds**, because program would never attempt to
+  access the 11th element of an array that contains 10
+- **signed integer overflow**, because mathematical operations will always stay
+  within the bounds that the type can represent
+- **data races on shared memory**, because concurrency bugs do not occur
+- **reading from uninitialized memory**, because there's no guarantees about
+  what's actually sitting in RAM at that address
+
+These cases are each quite interesting, but we'll be spending some extra time
+shortly on uninitialized memory. It's a topic that deserves its own treatment.
+
+</details>
+
+---
+
+# Rules of the game : defining undefined behavior : why it's dangerous
+
+The compiler might produce code that
+
+- works as expected
+- changes its behavior depending on the optimization level
+- crashes at runtime
+- corrupts data
+- leaks data
+- has important code paths deleted
+
+Therefore
+
+- once your program has triggered undefined behavior, it is impossible to reason
+  about
+
+<details>
+
+<!-- TODO: finish -->
+
+Optimization levels are particularly relevant because most testing of generated
+Rust occurs during `--debug` builds.
+
+Before then, let's look at what I mean by suggesting that important code paths
+may be deleted.
+
+</details>
+
+---
+
+# Rules of the game : defining undefined behavior : why it's dangerous
+
+## Dead code elimination (DCE) - part 1
 
 ```rust
-pub const fn from_ref(r: &T) -> Self {
-    // SAFETY: A reference cannot be null.
-    unsafe { NonNull { pointer: r as *const T } }
+pub fn rand_int() -> i32 {
+    if true { 0 } else { 1 }
 }
 ```
 
 <details>
 
-_Script_
+To understand the risks, it can be useful to refresh your understanding of what
+a compiler is and what it does.
 
-Even though it can feel redundant and obvious, it's still useful to re-state
-safety rationale that is common knowledge in the Rust community.
+A compiler takes your source code, a sequence of bits that can be interpreted by
+humans, and converts it to a different sequence of bits which can be interpreted
+by a CPU. But that's not all it does.
 
-Here's an example from the standard library. We have a method that takes a
-shared reference and converts it to a pointer.
+Take a look at the code up screen. What would we expect the compiler to do with
+it?
 
-The authors take the time to re-state one of the first rules of references, that
-they cannot be null.
+The compiler could mechanically translate the if block into the executable.
 
-[`std::ptr::NonNull.from_ref`]: https://doc.rust-lang.org/std/ptr/struct.NonNull.html#method.from_ref
+Or, it could apply the rules that it knows about if blocks and the value of
+`true` to deduce that the block containing the number `1` will never be reached.
+And it could delete it.
+
+_Key points_
+
+- if you were a compiler, how would you compile this code?
+- compilers delete code that's unnecessary
+- (recommendation) open code in the [playground][playground-dce] or
+  [compiler explorer][godbolt-dce] and
+
+[playground-dce]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a946c1fedf292d64c61b4e30b88c7790
+[godbolt-dce]: https://rust.godbolt.org/z/7qTK57K1j
 
 </details>
 
 ---
+
+# Rules of the game : defining undefined behavior : why it's dangerous
+
+## Dead code elimination (DCE) - part 2
+
+<!-- TODO: simplify code example -->
+
+```rust
+#[derive(Debug)]
+pub struct Token(String);
+
+#[derive(Debug)]
+pub struct ValidToken<'a>(&'a Token);
+
+#[derive(Debug)]
+pub struct SecurityViolation<'a>(&'a Token);
+
+/// Bless `Token` as a `ValidToken`
+///
+/// When validation fails, return `SecurityViolation` as an error.
+pub fn validate(token: &Token) -> Result<ValidToken, SecurityViolation> {
+    let data: &String = &(*token).0;
+
+    // SAFETY: ensure that reference is valid
+    if (token as *const Token).is_null() {
+        return Err(SecurityViolation(token));
+    }
+
+    // validate token
+    if data.contains("password") {
+        return Err(SecurityViolation(token));
+    }
+
+    Ok(ValidToken(token))
+}
+```
+
+<details>
+
+- what about this code?
+  - de-referencing a null pointer is undefined behavior, therefore it never
+    occurs, therefore the check is deleted
+- this is a simplified version of a case that affected the Linux kernel
+- _Note:_ Rust's ownership semantics makes this error significantly more
+  difficult to obfuscate than C
+
+</details>
+
+---
+
+# Rules of the game : defining undefined behavior : why it's difficult
+
+At least
+
+- types have their own semantics
+-
+
+<details>
+
+Many data types impose specific rules about how they are implemented.
+
+For example, Rust's references must never have the value zero. This is
+
+</details>
+
+---
+
+# Recap - sound code
+
+<details>
+
+- when code is sound, it is constructed in a way that's safe
+
+- soundness is a property that describes being valid by definition
+- c.f. logic
+
+</details>
+
+---
+
+# Rules of the game : 3 functions
+
+```rust,editable
+/// Replace contents of `container` with items produced by `generator`
+pub fn fill<T>(container: &mut [T], mut generator: impl FnMut(usize) -> T) {
+    for (i, item) in container.iter_mut().enumerate() {
+        *item = generator(i);
+    }
+}
+```
+
+```rust,editable
+/// Replace `count` items of `container` with items produced by `generator`
+///
+/// The updated `container` will contain initialized memory, allowing
+/// callers to `assume_init()`.
+pub fn partial_fill_maybe_uninit<T>(
+    container: &mut [std::mem::MaybeUninit<T>],
+    count: usize,
+    mut generator: impl FnMut(usize) -> T,
+) {
+    for i in 0..count {
+        let elem = unsafe { container.get_unchecked_mut(i) };
+        let item = generator(i);
+        elem.write(item);
+    }
+}
+```
+
+```rust,editable
+/// Replace contents of `container` with items produced by `generator`
+///
+/// The updated `container` will contain initialized memory, allowing
+/// callers to `assume_init()`.
+pub unsafe fn partial_fill_maybe_uninit_unchecked<T>(
+    container: &mut [std::mem::MaybeUninit<T>],
+    let count: usize,
+    mut generator: impl FnMut(usize) -> T,
+) {
+    let count = count.min(container.len()),
+    for i in 0..count {
+        let elem = unsafe { container.get_unchecked_mut(i) };
+        let item = generator(i);
+        elem.write(item);
+    }
+}
+```
+
+<details>
+
+- `fill`
+  - The compiler knows that Rust's iterators won't go out of bounds
+  - This is the normal Rust language that you all use.
+  - This is how most Rust code should look.
+
+- `partial_fill_maybe_uninit`
+  - Contains a "silent" unsafe block, i.e. including one within a function
+    that's being marked unsafe
+  - Triggers UB when `count > buffer.len()`
+  - Make improvements
+    - Document preconditions and mark it unsafe
+      - The function does not need to satisfy the preconditions of the unsafe
+        block itself
+      - Marking the function as unsafe shifts this responsibility to the caller
+      - The danger is clearly marked
+        - For humans, with a precondition
+        - For the compiler, with the unsafe keyword
+    - Consider re-writing to use an API that's unable to misused
+
+- `partial_fill_maybe_uninit_unchecked`
+  - "Crying wolf" example - no need for to be marked as unsafe
+  - Make improvements:
+    - Add safety comment, i.e.
+    - `// SAFETY: Max count is container.len()\ so i is in-bounds`
+
+</details>
+
+---
+
+# Recap
+
+<!-- TODO: finish -->
+
+- safety
+- `unsafe` keyword shifts responsibility from the compiler to the programmer
+- `unsafe` requires human review
+-
+
+<details>
+
+- soundness implies safety, but safety does not imply soundness
+  - `Sound ⊂ Safe`
+    - `Sound → Safe`, i.e. being sound implies being safe
+    - but, `¬(Safe → Sound)`, i.e. being safe does not imply being sound;
+      equivalently `∃x: Safe(x) ∧ ¬Sound(x)`
+- "safe", "unsafe" and precondition documentation/comments are compile-time
+  promises
+- "sound" and "unsound" are judgments about whether the code follows the
+  agreed-upon rules about marking things "unsafe" and documenting preconditions.
+- Unsafe operations and precondition comments are not checked automatically.
