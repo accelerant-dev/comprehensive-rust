@@ -78,6 +78,14 @@ possible. Avoid deep explanations.
 
 ---
 
+<!-- TODO: delete - idea only -->
+
+# Safety comments
+
+perhaps mention in earlier code that a later unsafe block depends on its state.
+
+---
+
 # Warm up: using an unsafe block
 
 ```rust,editable
@@ -95,11 +103,15 @@ fn main() {
 
 _Instructions_
 
-- Introduce code
+- Confirm understanding
+  - `Box`
+  - `*mut i32`
+- Code walkthrough
   - [Line 3] Creates raw pointer to the `123` by de-referencing the box,
     creating a new reference and casting the new reference as a pointer
   - [Line 4] Creates raw pointer with a NULL value
-  - [Line 7] Converts the raw pointer to an Option with [`.as_mut()`][as_mut];
+  - [Line 7] Converts the raw pointer to an Option with
+    [`.as_mut()`][ptr-as_mut];
 - Compile to reveal the error messages
 - Discuss
   - [Line 6] De-referencing a raw pointer
@@ -111,7 +123,23 @@ _Instructions_
   each line. Mention that we want to cover a single case with an unsafe block to
   avoid masking errors and to make safety comments as specific as possible
 
-[as-mut]: https://doc.rust-lang.org/stable/std/primitive.pointer.html#method.as_mut
+[ptr-as_mut]: https://doc.rust-lang.org/stable/std/primitive.pointer.html#method.as_mut
+
+_Suggested Solution_
+
+```rust
+fn main() {
+    let mut boxed = Box::new(123);
+    let a: *mut i32 = &mut *boxed as *mut _;
+    let b: *mut i32 = std::ptr::null_mut();
+
+    // SAFETY: `a` refers an i32 and all values are valid.
+    println!("{:?}", unsafe { *a });
+
+    // SAFETY: `b` is a null pointer, which can always be converted to None.
+    println!("{:?}", unsafe { b.as_mut() });
+}
+```
 
 </details>
 
@@ -447,6 +475,72 @@ proof.
 
 # Burden of proof
 
+- The compiler is responsible for Safe Rust
+- The programmer is responsible for Unsafe Rust
+
+---
+
+# Safety pre-conditions
+
+A safety pre-condition is a condition on a type that must be upheld when a value
+type constructed.
+
+```rust,editable
+fn main() {
+    let b: *mut i32 = std::ptr::null_mut();
+    println!("{:?}", b.as_mut());
+}
+```
+
+[`std::ptr.as_mut()`][ptr-as_mut]
+
+<details>
+
+Compile broken code and then follow the documentation to confirm that an unsafe
+block can be safety added to enable to code to function without triggering
+undefined behavior.
+
+_Detailed Instructions_
+
+- Compile the code to generate the error
+- Explain the notes provided by rustc
+  - "note: consult the function's documentation for information on how to avoid
+    undefined behavior"
+- Consult [the documentation][ptr-as_mut]
+  - Highlight Safety section
+    - "When calling this method, you have to ensure that either the pointer
+      [is null] or the pointer is [convertible to a refer]ence."
+  - Questions to raise
+    - who is the audience for the Safety section in the doc comment?
+    - how does a doc comment differ from in-line comments?
+    - why does a null pointer always satisfy the safety condition?
+- Click the "[convertible to a reference]" hyperlink to the "Pointer to
+  reference conversion"
+  - Track down the rules for converting a pointer to a reference, aka is
+    "_deferencerable_"
+  - Emphasize that many types have complicated semantics
+  - Consider the implications of this excerpt (Rust 1.90.0) "You must enforce
+    Rust’s aliasing rules. The exact aliasing rules are not decided yet, ..."
+
+[is null]: https://doc.rust-lang.org/stable/std/primitive.pointer.html#method.is_null-1
+[convertible to a reference]: https://doc.rust-lang.org/stable/std/ptr/index.html#pointer-to-reference-conversion
+
+_Aim of slide_
+
+Introduce the notion of pre-conditions by looking at pre-conditions that have
+already been written down.
+
+</details>
+
+---
+
+# Burden of proof (expanded)
+
+- The compiler is responsible for Safe Rust
+- The programmer is responsible for Unsafe Rust
+  - When creating abstractions that require an unsafe block, i.e. an
+    `unsafe fn`, safety pre-conditions must be documented
+
 ---
 
 # Memory life cycle
@@ -747,16 +841,30 @@ pub fn validate(token: &Token) -> Result<ValidToken, SecurityViolation> {
 
 # Rules of the game : defining undefined behavior : why it's difficult
 
-At least
+<!-- TODO: better wording -->
 
-- types have their own semantics
--
+Difficulty comes from (at least) three sources
+
+- difficult to detect
+- difficult semantics
+- difficult to trigger
 
 <details>
 
 Many data types impose specific rules about how they are implemented.
 
 For example, Rust's references must never have the value zero. This is
+
+- difficult to detect
+  - many soundness holes exist for a long time without anyone noticing
+- difficult semantics
+  - it can be difficult know whether behavior is actually unsound, as
+    - some types have very specific semantics
+    - specifications are subject to interpretation and can also contain errors
+- replicate target environment
+  - it's sometimes difficult to replicate target environment
+    - some bugs are triggered within a specific context that might be difficult
+      to replicate under test
 
 </details>
 
@@ -858,10 +966,9 @@ pub unsafe fn partial_fill_maybe_uninit_unchecked<T>(
 
 <!-- TODO: finish -->
 
-- safety
+- Rust code should be sound code, and sound code must be memory safe code
 - `unsafe` keyword shifts responsibility from the compiler to the programmer
 - `unsafe` requires human review
--
 
 <details>
 
