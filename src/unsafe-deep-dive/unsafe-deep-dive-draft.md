@@ -21,9 +21,29 @@ title: Unsafe Deep Dive
 
 # Aims
 
-- increase knowledge of
-- increase your ability to use unsafe
-- self-review easy cases
+This course aims to enable you to:
+
+- Work with Unsafe Rust, including
+  - using abstractions that require `unsafe`
+  - building abstractions that require `unsafe`
+  - reviewing code that includes `unsafe`
+
+<details>
+
+Achieving that aim requires
+
+- deepening your knowledge
+  - a mental model of how memory works
+  - what the `unsafe` keyword means
+  - a shared vocabulary
+  - common patterns
+  - expectations for code that uses `unsafe`
+
+- review code
+  - the confidence to self-review easy cases
+  - the knowledge to detect difficult cases
+
+</details>
 
 ---
 
@@ -33,6 +53,9 @@ What are your goals for this class?
 
 <details>
 
+- Check with learners
+- Address any latent concerns that the course won't be relevant to the learner
+
 _Script_
 
 Is there anything that you would like to make sure that we've talked about
@@ -40,12 +63,6 @@ during this session?
 
 It's likely that we'll cover your points through the course content. If not, we
 should have some buffer time available to address anything else.
-
-_Aims for slide_
-
-- Address any latent concerns that the course won't be relevant to the learner
-- Ensure that the content and delivery can be tweaked to meet the learners'
-  needs
 
 </details>
 
@@ -75,14 +92,6 @@ Show the mechanics such as which keywords go where and what constructs are
 possible. Avoid deep explanations.
 
 </details>
-
----
-
-<!-- TODO: delete - idea only -->
-
-# Safety comments
-
-perhaps mention in earlier code that a later unsafe block depends on its state.
 
 ---
 
@@ -982,3 +991,11 @@ pub unsafe fn partial_fill_maybe_uninit_unchecked<T>(
 - "sound" and "unsound" are judgments about whether the code follows the
   agreed-upon rules about marking things "unsafe" and documenting preconditions.
 - Unsafe operations and precondition comments are not checked automatically.
+
+---
+
+<!-- TODO: delete - ideas only -->
+
+# Safety comments
+
+perhaps mention in earlier code that a later unsafe block depends on its state.
