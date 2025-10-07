@@ -30,16 +30,18 @@ This course aims to enable you to:
 
 <details>
 
-Achieving that aim requires
+Achieving that aim requires:
 
-- deepening your knowledge
+- Deepening your knowledge
   - a mental model of how memory works
   - what the `unsafe` keyword means
   - a shared vocabulary
   - common patterns
   - expectations for code that uses `unsafe`
 
-- review code
+- Practice working with unsafe
+
+- Review code
   - the confidence to self-review easy cases
   - the knowledge to detect difficult cases
 
@@ -63,6 +65,77 @@ during this session?
 
 It's likely that we'll cover your points through the course content. If not, we
 should have some buffer time available to address anything else.
+
+_Aims for slide_
+
+- Identify common interests for learners
+- Address any latent concerns that the course won't be relevant to the learner
+- Ensure that the content and delivery can be tweaked to meet the learners'
+  needs
+
+</details>
+
+---
+
+# What is Unsafe Rust?
+
+<!-- mdbook-xgettext: skip -->
+
+```bob
+╭───────────────────────────────────────────────────────────╮
+│╭─────────────────────────────────────────────────────────╮│
+││                                                         ││
+││  Safe                                                   ││
+││  Rust                                                   ││
+││                                                         ││
+││                                                         ││
+│╰─────────╮                                               ││
+│          │                                               ││
+│  Unsafe  │                                               ││
+│   Rust   │                                               ││
+│          ╰───────────────────────────────────────────────╯│
+╰───────────────────────────────────────────────────────────╯
+```
+
+<details>
+
+- Comments
+  - Unsafe Rust is a superset of Safe Rust
+  - Rust still applies most of the rules, including type safety and borrow
+    checking
+- Open the [unsafe keyword] documentation
+  - Briefly mention (explain that we'll cover them this morning)
+    - (Top of page ) "...existence of **contracts** the compiler can’t check..."
+    - Undefined behavior
+    - Soundness
+    - "...it is now up to you to ensure soundness..."
+
+[unsafe keyword]: https://doc.rust-lang.org/stable/std/keyword.unsafe.html
+
+_Script_
+
+Unsafe Rust is a superset of the Rust language that you already know.
+
+It enables access to a few primitive unsafe operations, but doesn't disable
+anything that you already have, such as a borrow checker or type safety.
+
+As we'll discover, those unsafe operations provide the foundation that the rest
+of Rust is built from.
+
+Until then, one thing to remember about the differences between an unsafe
+operation and safe operation is where the burden of the proof lies for upholding
+Rust's guarantees.
+
+It can be helpful to describe these s a _contract_. Another term that we'll
+encounter is _safety pre-conditions_. The contract is the definition of the
+pre-conditions that apply, and each `unsafe` keyword is one one side of that
+contract.
+
+The Rust compiler takes responsibility for safe operations, whereas the
+programmer is responsible for operations marked unsafe.
+
+We'll be spending lots of the time explaining how to work with that burden of
+proof.
 
 </details>
 
@@ -433,50 +506,6 @@ development time.
 Therefore, unless it's used in context that could benefit from marginal
 increases in performance such as systems that are at high volume and/or high
 velocity,
-
-</details>
-
----
-
-# What is Unsafe Rust?
-
-<!-- TODO: add markup to exclude diagram from translation  -->
-
-```bob
-╭───────────────────────────────────────────────────────────╮
-│╭─────────────────────────────────────────────────────────╮│
-││                                                         ││
-││  Safe                                                   ││
-││  Rust                                                   ││
-││                                                         ││
-││                                                         ││
-│╰─────────╮                                               ││
-│          │                                               ││
-│  Unsafe  │                                               ││
-│   Rust   │                                               ││
-│          ╰───────────────────────────────────────────────╯│
-╰───────────────────────────────────────────────────────────╯
-```
-
-<details>
-
-_Script_
-
-Unsafe Rust is a superset of the Rust language that you already know.
-
-It enables access to a few primitive unsafe operations, but doesn't disable
-anything that you already have, such as a borrow checker or type safety.
-
-As we'll discover, those unsafe operations provide the foundation that the rest
-of Rust is built from.
-
-Until then, one thing to remember about the differences between an unsafe
-operation and safe operation is where the burden of the proof lies for upholding
-Rust's guarantees. The Rust compiler takes responsibility for safe operations,
-whereas the programmer is responsible for operations marked unsafe.
-
-We'll be spending lots of the time explaining how to work with that burden of
-proof.
 
 </details>
 
@@ -966,6 +995,28 @@ pub unsafe fn partial_fill_maybe_uninit_unchecked<T>(
   - Make improvements:
     - Add safety comment, i.e.
     - `// SAFETY: Max count is container.len()\ so i is in-bounds`
+
+</details>
+
+---
+
+# Recap : Unsafe keyword
+
+| Context                                 | Function of keyword                              | Docs Required                           | Docs Location                  |
+| --------------------------------------- | ------------------------------------------------ | --------------------------------------- | ------------------------------ |
+| `unsafe fn`, `unsafe trait`             | declares safety pre-conditions exist             | What pre-conditions exist               | Public API docs                |
+| `unsafe { ... }`, `unsafe impl { ... }` | confirms that safety preconditions are satisfied | How they are guaranteed to be satisfied | SAFETY: comment in source code |
+
+<details>
+
+The keyword has 2 roles:
+
+- When building abstractions, the `unsafe` keyword signals that safety
+  pre-conditions exist that the compiler cannot verify
+- When using abstractions, the `unsafe` keyword confirms that the pre-conditions
+  are satisfied
+
+Documentation must exist that describes what the safety pre-conditions are
 
 </details>
 
