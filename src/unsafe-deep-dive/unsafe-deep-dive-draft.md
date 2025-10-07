@@ -215,7 +215,7 @@ fn main() {
     let a: *mut i32 = &mut *boxed as *mut _;
     let b: *mut i32 = std::ptr::null_mut();
 
-    // SAFETY: `a` refers an i32 and all values are valid.
+    // SAFETY: `a` refers to an i32 and all values are valid.
     println!("{:?}", unsafe { *a });
 
     // SAFETY: `b` is a null pointer, which can always be converted to None.
@@ -242,30 +242,68 @@ fn main() {
     let a: *mut i32 = &mut *boxed as *mut _;
     let b: *mut i32 = std::ptr::null_mut();
 
-    println!("{:?}", unsafe { *a });
+    println!("{:?}", ptr_to_option(a));
     println!("{:?}", ptr_to_option(b));
 }
 ```
 
 <details>
 
-<!-- TODO: finish script -->
-
-_Script_
-
-The `ptr_to_option` function is our own version of the [`as_mut` method][as_mut]
-on pointers that we used in the previous slide.
-
 _Instructions_
 
-- Mark `ptr_to_option` as unsafe
-- Document safety pre-conditions
-  - Refer to the [original's documentation][as_mut]
-- Add a safety section to the docstring
-- Add a safety comment in the body of the function
-- Click through to the std lib [docs for `as_mut`][as_mut]
+- Code walkthrough
+  - Mention that `ptr_to_option` function is our own version of the
+    [`as_mut` method][ptr-as_mut] on pointers that we used in the previous
+    slide.
+  - Ask for a quick review of the code
+    - If someone mentions the lack of the `unsafe` keyword, request that they
+      explain why unsafe is necessary
+- Compile the code
+- Click through to the [documentation original method][ptr-as_mut]
+  - Note that safety rules relating to pointer semantics are subtle
+- Mark `ptr_to_option` and calls as unsafe
+- Add safety pre-conditions (suggested solution below)
+  - Add a safety section to the docstring
+  - Add a safety comment in the body of the function
 
-[as_mut]: https://doc.rust-lang.org/std/primitive.pointer.html#method.as_mut
+_Notes_
+
+- Learners may notice the auto-deref behavior
+
+_Suggested Solution_
+
+```rust
+/// Convert a pointer to an `Option<T>`
+///
+/// Returns `None` when `val` is null, otherwise wraps `val` in `Some`.
+/// 
+/// # Safety
+/// 
+/// When calling this method, ensure that either the pointer is null or
+/// the pointer is convertible to a reference.
+/// 
+/// Pointers are convertable to a reference when they are guaranteed to 
+/// point to a valid instance of `T`, are correctly aligned, obey Rust's
+/// aliasing rules and are "dereferenceable" as described in the [documentation of `std::ptr`].
+/// 
+/// [documentation of `std::ptr`]: https://doc.rust-lang.org/std/ptr/index.html#safety
+unsafe fn ptr_to_option<'a, T>(val: *mut T) -> Option<&'a mut T> {
+    if val.is_null() { None } else { unsafe { Some(&mut *val) } }
+}
+
+fn main() {
+    let mut boxed = Box::new(123);
+    let a: *mut i32 = &mut *boxed as *mut _;
+    let b: *mut i32 = std::ptr::null_mut();
+
+
+    // SAFETY: `a` refers to an i32 and all values are valid.
+    println!("{:?}", unsafe { ptr_to_option(a) });
+
+    // SAFETY: `b` is a null pointer, which can always be converted to None.    
+    println!("{:?}", unsafe { ptr_to_option(b)) };
+}
+```
 
 </details>
 
