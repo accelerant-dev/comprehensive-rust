@@ -284,13 +284,23 @@ struct StatusIndicator(std::sync::atomic::AtomicI32);
 
 <details>
 
-- Confirm understanding
-  - Explain traits for anyone that may still be somewhat unfamiliar; foster an
-    idea that they are sets of requirements
-- `Send` and `Sync` traits and their relationship to concurrency, an area where
-  safety concerns are prominent
-- Marker traits add information to the type system
-- `unsafe` traits have requirements with safety consequences
+- Traits are sets of requirements
+- The compiler can verify the requirements for most traits
+  - To verify that type `T` implements `std::fmt::Display` , the compiler looks
+    for a matching `fn fmt()` method
+- More difficult for unsafe traits; potential safety concerns cannot be
+  expressed in code
+- `Send` and `Sync` are marker traits
+- Marker traits are used add information to the type system that cannot be
+  expressed directly in code
+- Most marker traits are used to enable the type system to protect code from
+  logical errors
+  - Consider `std::cmp::Eq`: it exists to prevent floating point values from
+    being used where they might cause problems
+- `Send` and `Sync` are relate to concurrency, an area where safety concerns are
+  prominent
+- Adding `unsafe` to a keyword trait signals that implementing it incorrectly
+  has safety consequences
 
 </details>
 
