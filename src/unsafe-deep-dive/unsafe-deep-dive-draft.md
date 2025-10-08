@@ -13,6 +13,8 @@ title: Unsafe Deep Dive
 >
 > Italics are used to indicate the first time a term is used.
 
+<!-- TODO: pull more content from the existing draft material into the start of this section -->
+
 # Whole unsafe deep dive course draft
 
 ## Day 1: Morning
@@ -77,7 +79,7 @@ _Aims for slide_
 
 ---
 
-# What is Unsafe Rust?
+# Defining Unsafe Rust
 
 <!-- mdbook-xgettext: skip -->
 
@@ -99,11 +101,33 @@ _Aims for slide_
 
 <details>
 
-- Comments
-  - Unsafe Rust is a superset of Safe Rust
-  - Rust still applies most of the rules, including type safety and borrow
-    checking
-- Open the [unsafe keyword] documentation
+- Unsafe Rust is a superset of Safe Rust
+- Capabilities added
+  - Dereference raw pointers
+  - Call functions marked as unsafe
+- Rust still applies most of the rules, including type safety and borrow
+  checking
+
+</details>
+
+---
+
+# The unsafe keyword has two roles
+
+- Creating APIs with safety considerations
+- Using APIs with safety considerations
+
+<details>
+
+- Creating APIs with safety considerations
+  - Functions marked as unsafe, i.e. `unsafe fn`
+  - Traits marked as unsafe, i.e. `unsafe trait`
+- Using APIs with safety considerations
+  - Unsafe blocks: `unsafe { ... }`
+  - Unsafe trait implementations: `unsafe impl { ... }`
+- Note that the keyword "unsafe" does not automatically imply a problem. It
+  implies that improper use of the code is unsafe.
+- Consider opening the [unsafe keyword] documentation
   - Briefly mention (explain that we'll cover them this morning)
     - (Top of page ) "...existence of **contracts** the compiler can’t check..."
     - Undefined behavior
@@ -112,42 +136,18 @@ _Aims for slide_
 
 [unsafe keyword]: https://doc.rust-lang.org/stable/std/keyword.unsafe.html
 
-_Script_
-
-Unsafe Rust is a superset of the Rust language that you already know.
-
-It enables access to a few primitive unsafe operations, but doesn't disable
-anything that you already have, such as a borrow checker or type safety.
-
-As we'll discover, those unsafe operations provide the foundation that the rest
-of Rust is built from.
-
-Until then, one thing to remember about the differences between an unsafe
-operation and safe operation is where the burden of the proof lies for upholding
-Rust's guarantees.
-
-It can be helpful to describe these s a _contract_. Another term that we'll
-encounter is _safety pre-conditions_. The contract is the definition of the
-pre-conditions that apply, and each `unsafe` keyword is one one side of that
-contract.
-
-The Rust compiler takes responsibility for safe operations, whereas the
-programmer is responsible for operations marked unsafe.
-
-We'll be spending lots of the time explaining how to work with that burden of
-proof.
-
 </details>
 
 ---
 
 # Warm up
 
-3 examples:
+4 examples:
 
 - using an unsafe block
 - defining an unsafe function
 - implementing an unsafe trait
+- defining an unsafe trait
 
 <details>
 
@@ -183,12 +183,10 @@ fn main() {
 
 <details>
 
-_Instructions_
-
-- Confirm understanding
-  - `Box`
-  - `*mut i32`
 - Code walkthrough
+  - Confirm understanding
+    - `Box`
+    - `*mut i32`
   - [Line 3] Creates raw pointer to the `123` by de-referencing the box,
     creating a new reference and casting the new reference as a pointer
   - [Line 4] Creates raw pointer with a NULL value
@@ -276,16 +274,16 @@ _Suggested Solution_
 /// Convert a pointer to an `Option<T>`
 ///
 /// Returns `None` when `val` is null, otherwise wraps `val` in `Some`.
-/// 
+///
 /// # Safety
-/// 
+///
 /// When calling this method, ensure that either the pointer is null or
 /// the pointer is convertible to a reference.
-/// 
-/// Pointers are convertable to a reference when they are guaranteed to 
+///
+/// Pointers are convertable to a reference when they are guaranteed to
 /// point to a valid instance of `T`, are correctly aligned, obey Rust's
 /// aliasing rules and are "dereferenceable" as described in the [documentation of `std::ptr`].
-/// 
+///
 /// [documentation of `std::ptr`]: https://doc.rust-lang.org/std/ptr/index.html#safety
 unsafe fn ptr_to_option<'a, T>(val: *mut T) -> Option<&'a mut T> {
     if val.is_null() { None } else { unsafe { Some(&mut *val) } }
@@ -296,12 +294,11 @@ fn main() {
     let a: *mut i32 = &mut *boxed as *mut _;
     let b: *mut i32 = std::ptr::null_mut();
 
-
     // SAFETY: `a` refers to an i32 and all values are valid.
     println!("{:?}", unsafe { ptr_to_option(a) });
 
-    // SAFETY: `b` is a null pointer, which can always be converted to None.    
-    println!("{:?}", unsafe { ptr_to_option(b)) };
+    // SAFETY: `b` is a null pointer, which can always be converted to None.
+    println!("{:?}", unsafe { ptr_to_option(b) });
 }
 ```
 
@@ -309,7 +306,7 @@ fn main() {
 
 ---
 
-# Warm up: unsafe traits
+# Warm up: using an unsafe trait
 
 ```rust,editable
 struct StatusIndicator(std::sync::atomic::AtomicI32);
@@ -320,161 +317,36 @@ struct StatusIndicator(std::sync::atomic::AtomicI32);
 
 <details>
 
-Material to cover
-
-- Traits for anyone that may still be somewhat unfamiliar; foster an idea that
-  they are sets of requirements
+- Confirm understanding
+  - Explain traits for anyone that may still be somewhat unfamiliar; foster an
+    idea that they are sets of requirements
 - `Send` and `Sync` traits and their relationship to concurrency, an area where
   safety concerns are prominent
 - Marker traits add information to the type system
 - `unsafe` traits have requirements with safety consequences
 
-_Instructions_
+</details>
 
-- Follow the script below
+---
 
-_Script_
+# Warm up: defining an unsafe trait
 
-`Send` and `Sync` are so-called _unsafe traits_ relating to concurrency.
+From the [`std::marker`]:
 
-What does it mean to implement an unsafe trait?
+```rust
+pub unsafe auto trait Send {}
+pub unsafe auto trait Sync {}
+```
 
-To answer that, we first need to ensure that everyone agrees what a trait is.
+<details>
 
-[Asking audience] What is a trait?
-
-[Gather ideas and discuss]
-
-Traits are normally described as an _interface_ [Java/Go] or _protocol_
-[Python], or perhaps even a type class if you have a Haskell background.
-
-These descriptions focus on the methods that the trait provides. They focus on
-the shared behavior.
-
-I would like to suggest a slightly different perspective that places less
-emphasis on behavior. What about, "traits as sets of requirements"?
-
-Allow me to explain what I mean...
-
-When you define a trait, you're specifying a set of conditions that types must
-satisfy before they're able to implement them.
-
-And when you implement a trait, you're providing an assurance to the type system
-that the type meets the trait's requirements.
-
-[PAUSE]
-
-For example, let's consider the [`Eq`] trait. When you learned Rust, you may
-have been slightly confused as to why there's a `PartialEq` trait that is used
-for the equality operator, but there is also an additional trait `Eq` that
-provides no new methods.
-
-After some time, you discovered that although it provides no new methods, `Eq`
-does provide new semantics.
-
-For a type to implement `Eq`, every value of that type must be equal to itself.
-Floating point NaN values do not uphold this requirement. Therefore, `f32` and
-`f64` are not `Eq` types.
-
-Formally speaking, `Eq` types are said to upload the [_reflexive relation_].
-
-[PAUSE]
-
-Thinking of traits this way makes it easier to understand what the purpose of a
-_marker trait_ is.
-
-Although it doesn't provide any new methods, marker traits provide information
-to the type system. They confirm that types that implement them satisfy the
-requirements.
-
-Thinking of traits this way also makes it easier to understand an unsafe trait
-is.
-
-An unsafe trait is a trait that is special because if you fail to meet its
-requirements, you will be violating Rust's safety guarantees.
-
-[PAUSE]
-
-[Asking audience] Any questions at this point? It's okay to disagree with me
-about any of this -- I would be interested to hear any thoughts.
-
-[PAUSE]
-
-Okay, now that we've established what a trait is, let's take a closer look at
-the two traits here, `Send` and `Sync`.
-
-The first thing that you might notice is that they're defined within the
-`std::marker` module of the standard library. That is an indication that `Send`
-and `Sync` are used to enrich the type system.
-
-Let's reiterate. When you implement either of these traitsfor your types, you're
-assuming responsibility for upholding Rust's safety guarantees. When a library
-author defines an unsafe trait, it means that they're providing an interface
-that carries risks that the compiler cannot protect the implementer from.
-
-The burden is on the implementer to ensure that the trait's safety
-pre-conditions are satisfied.
-
-Here, we have a newtype wrapping an atomic type. Atomic types--types which are
-updated by the computer without the possibility of different threads seeing
-different values--are both `Send` and `Sync`. As we're not adding any additional
-behavior, we can be confident that `StatusIndicator` it follows that we have a
-green light to implement those types ourselves.
-
-So let's go ahead and implement them. [Uncomment lines; compile to show the
-error; add the unsafe keyword; re-compile]
-
-The syntax for implementing `Send` and `Sync` is quite minimal. They're marker
-traits, so they don't have any methods. The vast majority of the time taken to
-implement them is spent ensuring that your implementation follows Rust's rules.
-
-[_reflexive relation_]: https://en.wikipedia.org/wiki/Reflexive_relation
-[`Eq`]: https://doc.rust-lang.org/std/cmp/trait.Eq.html
-
-<!-- TODO: move the content below to later in the course; this is suppose to be a warm up -->
-
-_Instructions (cont.)_
-
-> _Note:_
->
-> Avoid spending too much time here. The aim is to inform the audience that
-> these traits and types have quirks.
-
-- Open the standard library's documentation for
-  - [`Send`][send-docs]
-    - Discussion points
-      - "Types that can be transferred across thread boundaries [by copying the
-        bytes exactly as they currently are in memory]"
-      - "This trait is automatically implemented when the compiler determines
-        it’s appropriate." - similar to `Sized`
-      - Not notation, i.e. `impl !Send for Args`
-    - Raise question: What are the safety pre-conditions for `Send`?
-  - [`Sync`][sync-docs]
-    - Contrast with `Send`: `Sync` primarily relates to sharing references to
-      values, whereas `Send` primarily relates to sharing values themselves
-    - Sync has some complex semantics, esp. with
-      - Confusion between `&T` and `&mut T`
-      - Interior mutability
-      - Pointers guaranteed to be non-NULL, i.e. "`impl<T> !Sync for NonNull<T>`
-        NonNull pointers are not Sync because the data they reference may be
-        aliased."
-    - Raise question: What are the safety pre-conditions for `Sync`?
-  - [atomic operations][atomic-docs].
-    - If your audience has a C++ background, mention that the semantics of Rust
-      and C++ differ.
-    - Sentences to highlight and points to emphasize
-      - **Portability** section
-        - Atomic operations may be emulated
-        - "Atomic types and operations are not guaranteed to be wait-free."
-      - **Atomic accesses to read-only memory** section
-        - "In general, all atomic accesses on read-only memory are undefined
-          behavior."
-
-[atomic-docs]: https://doc.rust-lang.org/std/sync/atomic/index.html
-[send-docs]: https://doc.rust-lang.org/std/marker/trait.Send.html
-[sync-docs]: https://doc.rust-lang.org/std/marker/trait.Sync.html
+- Unsafe traits are typically marker traits
+- The safety concerns can't directly be expressed in code and rely on human
+  -to-human communication.
 
 </details>
+
+[`std::marker`]: https://doc.rust-lang.org/std/marker/index.html
 
 ---
 
