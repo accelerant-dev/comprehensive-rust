@@ -333,7 +333,8 @@ _Suggested Solution_
 ///
 /// # Safety
 ///
-/// Implementing this trait for types that do not use 32 bits is a memory safety violation.
+/// Implementing this trait for types that do not use 32 bits is a memory 
+/// safety violation.
 pub trait Width32 {}
 
 impl Width32 for i32 {}
