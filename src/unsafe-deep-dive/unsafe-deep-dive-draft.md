@@ -89,9 +89,12 @@ What are your goals for this class?
 <details>
 
 - Unsafe Rust is a superset of Safe Rust
-- Capabilities added
+- Unsafe Rust adds extra capabilities, including
   - Dereference raw pointers
   - Call functions marked as unsafe
+- Those capabilities are referred to as _unsafe operations_
+- Unsafe operations provide the foundation that the rest of safe Rust is built
+  on
 - Rust still applies most of the rules, including type safety and borrow
   checking
 
