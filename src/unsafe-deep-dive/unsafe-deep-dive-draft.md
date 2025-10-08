@@ -21,14 +21,15 @@ title: Unsafe Deep Dive
 
 ---
 
-# Aims
+# Welcome!
 
-This course aims to enable you to:
+This deep dive aims to enable you to work productively with Unsafe Rust.
 
-- Work with Unsafe Rust, including
-  - using abstractions that require `unsafe`
-  - building abstractions that require `unsafe`
-  - reviewing code that includes `unsafe`
+By the end, you'll be able to:
+
+- use APIs with `unsafe`
+- build APIs with `unsafe`
+- review code that includes `unsafe`
 
 <details>
 
@@ -58,23 +59,8 @@ What are your goals for this class?
 
 <details>
 
-- Check with learners
-- Address any latent concerns that the course won't be relevant to the learner
-
-_Script_
-
-Is there anything that you would like to make sure that we've talked about
-during this session?
-
-It's likely that we'll cover your points through the course content. If not, we
-should have some buffer time available to address anything else.
-
-_Aims for slide_
-
-- Identify common interests for learners
-- Address any latent concerns that the course won't be relevant to the learner
-- Ensure that the content and delivery can be tweaked to meet the learners'
-  needs
+- Signal when the content will be offered the course
+- Note down any points that differ from the course material
 
 </details>
 
