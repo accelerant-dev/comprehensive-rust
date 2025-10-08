@@ -42,6 +42,7 @@ Achieving that aim requires:
   - expectations for code that uses `unsafe`
 
 - Practice working with unsafe
+  - reading and writing both code and documentation
 
 - Review code
   - the confidence to self-review easy cases
