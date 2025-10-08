@@ -308,18 +308,64 @@ struct StatusIndicator(std::sync::atomic::AtomicI32);
 
 # Warm up: defining an unsafe trait
 
-From the [`std::marker`]:
+`Send` and `Sync` are defined as marker traits. How do
 
-```rust
-pub unsafe auto trait Send {}
-pub unsafe auto trait Sync {}
+```rust,editable
+/// Implementors are represented with 32 bits on all platforms.
+pub trait Width32 {}
+
+impl Width32 for i32 {}
+impl Width32 for f32 {}
 ```
 
 <details>
 
-- Unsafe traits are typically marker traits
-- The safety concerns can't directly be expressed in code and rely on human
-  -to-human communication.
+- Describe a scenario where a library author wishes to mark some types as being
+  a specific number of bits wide
+- Discuss why the current code is insufficient - memory safety implications
+- Add the unsafe keywords
+- Add safety comment
+
+_Suggested Solution_
+
+```rust
+/// Implementors are represented with 32 bits on all platforms.
+///
+/// # Safety
+///
+/// Implementing this trait for types that do not use 32 bits is a memory safety violation.
+pub trait Width32 {}
+
+impl Width32 for i32 {}
+impl Width32 for f32 {}
+```
+
+_Bonus Teaser_
+
+The code won't above work as-is. Using compile-time assertions, it's possible to
+tell the compiler that `T` is a specific size:
+
+```rust
+pub unsafe trait Width32: Copy {
+    // Compile-time assertion to prove to the compiler that T's size equals 4
+    const SIZE: () = assert!(std::mem::size_of::<Self>() == 4);
+}
+
+unsafe impl Width32 for i32 {}
+unsafe impl Width32 for f32 {}
+
+fn view<T: Width32>(val: T) {
+    let _ = T::SIZE; // Trigger the assertion
+
+    let bytes: u32 = unsafe { std::mem::transmute_copy(&val) };
+    println!("{:x}", bytes);
+}
+
+fn main() {
+    let a = 123;
+    view(a)
+}
+```
 
 </details>
 
