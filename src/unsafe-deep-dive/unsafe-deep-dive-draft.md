@@ -220,15 +220,13 @@ fn main() {
 
 <details>
 
-_Instructions_
-
-- Code walkthrough
+- Step through code
   - Mention that `ptr_to_option` function is our own version of the
     [`as_mut` method][ptr-as_mut] on pointers that we used in the previous
     slide.
-  - Ask for a quick review of the code
-    - If someone mentions the lack of the `unsafe` keyword, request that they
-      explain why unsafe is necessary
+- Ask for a quick review of the code
+  - If someone mentions the lack of the `unsafe` keyword, request that they
+    explain why unsafe is necessary
 - Compile the code
 - Click through to the [documentation original method][ptr-as_mut]
   - Note that safety rules relating to pointer semantics are subtle
@@ -236,10 +234,6 @@ _Instructions_
 - Add safety pre-conditions (suggested solution below)
   - Add a safety section to the docstring
   - Add a safety comment in the body of the function
-
-_Notes_
-
-- Learners may notice the auto-deref behavior
 
 _Suggested Solution_
 
@@ -253,7 +247,7 @@ _Suggested Solution_
 /// When calling this method, ensure that either the pointer is null or
 /// the pointer is convertible to a reference.
 ///
-/// Pointers are convertable to a reference when they are guaranteed to
+/// Pointers are convertible to a reference when they are guaranteed to
 /// point to a valid instance of `T`, are correctly aligned, obey Rust's
 /// aliasing rules and are "dereferenceable" as described in the [documentation of `std::ptr`].
 ///
