@@ -132,29 +132,12 @@ What are your goals for this class?
 
 # Warm up
 
-4 examples:
+4 examples follow:
 
-- using an unsafe block
-- defining an unsafe function
-- implementing an unsafe trait
-- defining an unsafe trait
-
-<details>
-
-_Script_
-
-We'll start by going through a couple of examples that introduce the mechanics
-of using unsafe.
-
-If you have any questions, then please note them down. This will generate a
-checklist that we'll make sure that we've covered off.
-
-_Advice for the next few slides_
-
-Show the mechanics such as which keywords go where and what constructs are
-possible. Avoid deep explanations.
-
-</details>
+- using an unsafe block (`unsafe { ... }`)
+- defining an unsafe function (`unsafe fn`)
+- implementing an unsafe trait (`unsafe impl { ... }`)
+- defining an unsafe trait (`unsafe trait`)
 
 ---
 
