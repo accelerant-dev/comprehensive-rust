@@ -27,9 +27,9 @@ This deep dive aims to enable you to work productively with Unsafe Rust.
 
 By the end, you'll be able to:
 
-- use APIs with `unsafe`
-- build APIs with `unsafe`
-- review code that includes `unsafe`
+- use unsafe APIs
+- build unsafe APIs
+- review unsafe code
 
 <details>
 
@@ -53,16 +53,31 @@ Achieving that aim requires:
 
 ---
 
-# Your aims
+# Introductions
 
-What are your goals for this class?
+- Who are you?
+- What are you working on?
+- What are your goals for this class?
 
 <details>
 
-- Signal when the content will be offered the course
 - Note down any points that differ from the course material
 
 </details>
+
+---
+
+# Agenda
+
+<!-- TODO: create before final publication -->
+
+## Day 1
+
+- ...
+
+## Day 2
+
+- ...
 
 ---
 
