@@ -1,6 +1,12 @@
 use matmat::panic_heavy::matrix_multiplication;
-use matmat::result::{matrix_multiplication as result_matrix_multiplication, Error as ResultError, Input as ResultInput};
-use matmat::safe_unsafe::{matrix_multiplication as safe_unsafe_matrix_multiplication, Error as SafeUnsafeError, Input as SafeUnsafeInput};
+use matmat::result::{
+    Error as ResultError, Input as ResultInput,
+    matrix_multiplication as result_matrix_multiplication,
+};
+use matmat::safe_unsafe::{
+    Error as SafeUnsafeError, Input as SafeUnsafeInput,
+    matrix_multiplication as safe_unsafe_matrix_multiplication,
+};
 
 #[test]
 #[should_panic]
@@ -215,7 +221,10 @@ fn incompatible_dimensions_result() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = result_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(ResultError::DimensionsIncompatible { a_columns: 2, b_rows: 3 })));
+    assert!(matches!(
+        result,
+        Err(ResultError::DimensionsIncompatible { a_columns: 2, b_rows: 3 })
+    ));
 }
 
 #[test]
@@ -227,7 +236,10 @@ fn jagged_matrix_a_result() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = result_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(ResultError::RowLengthsDiffer { matrix: ResultInput::A, .. })));
+    assert!(matches!(
+        result,
+        Err(ResultError::RowLengthsDiffer { matrix: ResultInput::A, .. })
+    ));
 }
 
 #[test]
@@ -239,7 +251,10 @@ fn jagged_matrix_b_result() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = result_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(ResultError::RowLengthsDiffer { matrix: ResultInput::B, .. })));
+    assert!(matches!(
+        result,
+        Err(ResultError::RowLengthsDiffer { matrix: ResultInput::B, .. })
+    ));
 }
 
 #[test]
@@ -295,7 +310,10 @@ fn incompatible_dimensions_safe_unsafe() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = safe_unsafe_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(SafeUnsafeError::DimensionsIncompatible { a_columns: 2, b_rows: 3 })));
+    assert!(matches!(
+        result,
+        Err(SafeUnsafeError::DimensionsIncompatible { a_columns: 2, b_rows: 3 })
+    ));
 }
 
 #[test]
@@ -307,7 +325,10 @@ fn jagged_matrix_a_safe_unsafe() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = safe_unsafe_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(SafeUnsafeError::RowLengthsDiffer { matrix: SafeUnsafeInput::A, .. })));
+    assert!(matches!(
+        result,
+        Err(SafeUnsafeError::RowLengthsDiffer { matrix: SafeUnsafeInput::A, .. })
+    ));
 }
 
 #[test]
@@ -319,5 +340,8 @@ fn jagged_matrix_b_safe_unsafe() {
     let b_refs: Vec<&[f64]> = b.iter().map(|row| row.as_slice()).collect();
 
     let result = safe_unsafe_matrix_multiplication(&a_refs, &b_refs);
-    assert!(matches!(result, Err(SafeUnsafeError::RowLengthsDiffer { matrix: SafeUnsafeInput::B, .. })));
+    assert!(matches!(
+        result,
+        Err(SafeUnsafeError::RowLengthsDiffer { matrix: SafeUnsafeInput::B, .. })
+    ));
 }

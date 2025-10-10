@@ -380,8 +380,10 @@ fn identity_multiplication_property_safe_unsafe() {
         let id_refs = matrix_to_refs(&identity);
         let test_refs = matrix_to_refs(&test_matrix);
 
-        let left_mult = safe_unsafe_matrix_multiplication(&id_refs, &test_refs).unwrap();
-        let right_mult = safe_unsafe_matrix_multiplication(&test_refs, &id_refs).unwrap();
+        let left_mult =
+            safe_unsafe_matrix_multiplication(&id_refs, &test_refs).unwrap();
+        let right_mult =
+            safe_unsafe_matrix_multiplication(&test_refs, &id_refs).unwrap();
 
         assert_matrices_equal(&left_mult, &test_matrix);
         assert_matrices_equal(&right_mult, &test_matrix);

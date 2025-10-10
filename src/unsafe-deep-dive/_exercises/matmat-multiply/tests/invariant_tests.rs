@@ -441,7 +441,8 @@ fn projection_matrix_idempotency_result() {
     }
 
     let proj_refs = matrix_to_refs(&projection);
-    let projection_squared = result_matrix_multiplication(&proj_refs, &proj_refs).unwrap();
+    let projection_squared =
+        result_matrix_multiplication(&proj_refs, &proj_refs).unwrap();
 
     for i in 0..3 {
         for j in 0..3 {
@@ -476,7 +477,8 @@ fn projection_matrix_idempotency_safe_unsafe() {
     }
 
     let proj_refs = matrix_to_refs(&projection);
-    let projection_squared = safe_unsafe_matrix_multiplication(&proj_refs, &proj_refs).unwrap();
+    let projection_squared =
+        safe_unsafe_matrix_multiplication(&proj_refs, &proj_refs).unwrap();
 
     for i in 0..3 {
         for j in 0..3 {
