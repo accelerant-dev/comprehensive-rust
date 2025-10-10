@@ -539,9 +539,9 @@ development time.
 
 ---
 
-# Safety pre-conditions
+# Safety preconditions
 
-Safety pre-conditions prevent memory safety problems within `unsafe` blocks.
+Safety preconditions prevent memory safety problems within `unsafe` blocks.
 
 What are the conditions that must be upheld when `b.as_mut()` is called?
 
@@ -594,26 +594,102 @@ already been written down.
 
 ---
 
-# Safety preconditions : code example 1
-
-Group exercise: code review:
+# Introducing safety preconditions : code example - mismatch
 
 ```rust,editable
-/// Create a new Vec<T> with capacity `N` and length `size`
-pub fn new_container<T: Default, const N: usize>(size: usize) -> Vec<T> {
-    let mut c = Vec::with_capacity(N);
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
+    let mut v = Vec::with_capacity(C);
     unsafe {
-        let data: *mut T = c.as_mut_ptr();
+        let data: *mut T = v.as_mut_ptr();
 
-        for i in 0..size.min(N) {
+        for i in 0..len.min(C) {
             data.add(i).write(T::default());
         }
 
-        c.set_len(size);
+        v.set_len(len);
     }
-    c
+    v
 }
 ```
+
+<details>
+
+This example is intended to present a piece of code that uses unsafe APIs from
+the standard library. It also reinforces the earlier messages about code review
+and preferring alternatives to unsafe.
+
+- When `N > size`, there is an opportunity to create a mismatch that can trigger
+  UB
+- We iterate N times, but set len to size
+- Perhaps a case of premature optimization: ("const generics are really fast")
+
+_Possible solution_
+
+We could push responsibility for maintaining `N <= size` to callers by marking
+the function as unsafe and adding a safety comment in the docstring.
+
+```rust
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+///
+/// # Safety
+///
+/// The `N` 
+unsafe pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
+    let mut v = Vec::with_capacity(C);
+    unsafe {
+        let data: *mut T = v.as_mut_ptr();
+
+        for i in 0..len.min(C) {
+            data.add(i).write(T::default());
+        }
+
+        v.set_len(len);
+    }
+    v
+}
+```
+
+_Better solution_
+
+A better idea would be to fix the program so that problems cannot arise by
+misusing the API.
+
+```rust,editable
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
+    let mut v = Vec::with_capacity(C);
+    let len = len.min(C);
+    unsafe {
+        let data: *mut T = v.as_mut_ptr();
+
+        for i in 0..len {
+            data.add(i).write(T::default());
+        }
+
+        v.set_len(len);
+    }
+    v
+}
+```
+
+_Even better solution_
+
+An even better idea would be to fix the program so that problems cannot arise by
+misusing the API.
+
+_Extra content_
+
+This bug can be detected by miri, which will generate the following error
+message:
+
+> unsafe precondition(s) violated: Vec::set_len requires that new_len <=
+> capacity()
+>
+> This indicates a bug in the program. This Undefined Behavior check is
+> optional, and cannot be relied on for safety
+
+</details>
 
 ---
 
