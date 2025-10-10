@@ -556,13 +556,13 @@ fn main() {
 
 <details>
 
-Compile broken code and then follow the documentation to confirm that an unsafe
-block can be safety added to enable to code to function without triggering
-undefined behavior.
+Attempt to compile broken code and then follow the documentation to confirm that
+an unsafe block can be correctly added to enable to code to function without
+triggering undefined behavior.
 
 _Detailed Instructions_
 
-- Compile the code to generate the error
+- Compile the code, demonstrate the compilation error
 - Explain the notes provided by rustc
   - "note: consult the function's documentation for information on how to avoid
     undefined behavior"
@@ -587,7 +587,7 @@ _Detailed Instructions_
 
 _Aim of slide_
 
-Introduce the notion of pre-conditions by looking at pre-conditions that have
+Introduce the notion of preconditions by looking at preconditions that have
 already been written down.
 
 </details>
