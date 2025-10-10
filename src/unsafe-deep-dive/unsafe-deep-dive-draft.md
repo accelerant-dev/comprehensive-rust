@@ -241,7 +241,7 @@ fn main() {
 # Warm up: defining an unsafe function
 
 ```rust,editable
-/// Convert a pointer to an `Option<T>`
+/// Convert a nullable pointer to an `Option<T>`.
 ///
 /// Returns `None` when `val` is null, otherwise wraps `val` in `Some`.
 fn ptr_to_option<'a, T>(val: *mut T) -> Option<&'a mut T> {
@@ -278,7 +278,7 @@ fn main() {
 _Suggested Solution_
 
 ```rust
-/// Convert a pointer to an `Option<T>`
+/// Convert a nullable pointer to an `Option<T>`.
 ///
 /// Returns `None` when `val` is null, otherwise wraps `val` in `Some`.
 ///
