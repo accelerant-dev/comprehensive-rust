@@ -348,8 +348,6 @@ struct StatusIndicator(std::sync::atomic::AtomicI32);
 
 # Warm up: defining an unsafe trait
 
-`Send` and `Sync` are defined as marker traits. How do
-
 ```rust,editable
 /// Implementors are represented with 32 bits on all platforms.
 pub trait Width32 {}
@@ -373,7 +371,7 @@ _Suggested Solution_
 ///
 /// # Safety
 ///
-/// Implementing this trait for types that do not use 32 bits is a memory 
+/// Implementing this trait for types that do not use 32 bits is a memory
 /// safety violation.
 pub trait Width32 {}
 
@@ -410,11 +408,31 @@ fn main() {
 
 </details>
 
-[`std::marker`]: https://doc.rust-lang.org/std/marker/index.html
+---
+
+# Working with Unsafe Rust
+
+<!-- TODO: before publication, check that the titles have remained the same -->
+
+- Unsafe is dangerous
+- Unsafe is (sometimes) necessary
+- Unsafe is (potentially) useful
+- Unsafe shifts the burden of proof
+- Unsafe requires a stronger development workflow
+
+<details>
+
+- The next few slides will look at unsafe from a different perspective
+- Rather than looking at the syntax, we'll think about:
+  - motivations for using the unsafe keyword
+  - the hazards that exist
+  - what those hazards imply for teams writing software using it
+
+</details>
 
 ---
 
-# Why unsafe
+# Unsafe is dangerous
 
 > “Use-after-free (UAF), integer overflows, and out of bounds (OOB) reads/writes
 > comprise 90% of vulnerabilities with OOB being the most common.”
@@ -429,57 +447,51 @@ dangerous, so why is `unsafe` part of the language?
 
 ---
 
-# Why unsafe (cont.)
+# Unsafe is necessary
 
-- Necessity
-- Usefulness
+Unsafe is sometimes necessary:
+
+- working with the host system
+  - CPU instructions
+  - compiler intrinsics
+  - OS syscalls
+- working with memory that is not managed by Rust
+  - FFI
+  - interacting with _uninitialized memory_
+  - writing a memory allocator
+- implementing concurrency primitives and advanced data structures
+- writing a programming language (Safe Rust is written using Unsafe Rust)
+
+# Unsafe is useful
+
+Unsafe is sometimes useful:
+
+- your code can go faster!
 
 <details>
 
-Necessity:
-
-- interacting with _uninitialized memory_
-- accessing CPU and compiler _intrinsics_
-- interacting with external systems FFI (foreign function interface), including
-  other programming language runtimes such as Java and its JNI (Java Native
-  Interface)
-- interacting with the host platform
-- writing a memory allocator
-- implementing concurrency primitives
-- implementing data structures that Rust's borrow checker is unable to reason
-  about, such as graphs that may have cycles and intrusive data structures
-
-Usefulness:
-
-- your code can go faster
+- If you are optimizing for speed, then consider alternatives to unsafe first.
+- Staying in safe Rust means that you can focus on algorithm, data structures
+  and logic errors.
+- Let compiler engineers worry about micro-optimizations.
 
 </details>
 
----
-
-# If you are optimizing for speed, then consider alternatives to unsafe first
+# Unsafe is difficult
 
 Unsafe code
 
 - is difficult to write
-- risks introducing safety, security, and stability bugs
+- is difficult to maintain
+- risks introducing safety, security, and stability bugs, and
 - needs more code review
 
-TODO: effort vs performance diagram - unsafe offers diminishing returns
-
 <details>
-
-Using unsafe to improve the code's speed is often at the end of the list of
-optimizations.
 
 It's difficult to write correct unsafe code quickly.
 
 Because of its hazards, it's subject to more strenuous review, which slows down
 development time.
-
-Therefore, unless it's used in context that could benefit from marginal
-increases in performance such as systems that are at high volume and/or high
-velocity,
 
 </details>
 
@@ -529,8 +541,9 @@ velocity,
 
 # Safety pre-conditions
 
-A safety pre-condition is a condition on a type that must be upheld when a value
-type constructed.
+Safety pre-conditions prevent memory safety problems within `unsafe` blocks.
+
+What are the conditions that must be upheld when `b.as_mut()` is called?
 
 ```rust,editable
 fn main() {
@@ -556,7 +569,7 @@ _Detailed Instructions_
 - Consult [the documentation][ptr-as_mut]
   - Highlight Safety section
     - "When calling this method, you have to ensure that either the pointer
-      [is null] or the pointer is [convertible to a refer]ence."
+      [is null] or the pointer is [convertible to a reference]."
   - Questions to raise
     - who is the audience for the Safety section in the doc comment?
     - how does a doc comment differ from in-line comments?
@@ -581,88 +594,63 @@ already been written down.
 
 ---
 
-# Burden of proof (expanded)
+# Safety preconditions : code example 1
 
-- The compiler is responsible for Safe Rust
-- The programmer is responsible for Unsafe Rust
-  - When creating abstractions that require an unsafe block, i.e. an
-    `unsafe fn`, safety pre-conditions must be documented
+Group exercise: code review:
 
----
+```rust,editable
+/// Create a new Vec<T> with capacity `N` and length `size`
+pub fn new_container<T: Default, const N: usize>(size: usize) -> Vec<T> {
+    let mut c = Vec::with_capacity(N);
+    unsafe {
+        let data: *mut T = c.as_mut_ptr();
 
-# Memory life cycle
+        for i in 0..size.min(N) {
+            data.add(i).write(T::default());
+        }
 
-<!-- TODO: check suitability for translation; is it okay to use labels with numbers & a legend? -->
-<!-- TODO: check accessibility; should each border be different to make it easier to talk about? -->
-<!-- TODO: add markup to exclude diagram from translation  -->
-
-```bob
-╭──────╮       ╭──────╮      ╭──────────────────────────────╮ 
-│  1   │       │  2   │      │ 3                            │
-│      │       │      │      │   ╭───────╮     ╭───────╮    │
-│      │       │      │      │   │       │     │       │    │
-│      │  -->  │      │  --> │   │       │ --> │       │    │ 
-│      │       │      │      │   │  3.1. │     │  3.2. │    │ 
-│      │  <--  │      │  <-- │   │       │     │       │    │
-│      │       │      │      │   │       │ <-- │       │    │ 
-│      │       │      │      │   ╰───────╯     ╰───────╯    │ 
-│      │       │      │      │                              │
-╰──────╯       ╰──────╯      ╰──────────────────────────────╯
+        c.set_len(size);
+    }
+    c
+}
 ```
 
-### Legend
-
-1. Hardware
-2. OS
-3. Program
-   1. Allocator
-   2. Initialized memory
-
 ---
 
-# Things that are not unsafe
+# Introducing safety preconditions : introducing MaybeUninit
 
-- panicking
-- leaking memory
+```
+use std::mem::MaybeUninit;
 
-## Panicking
-
-```rust
-fn main() {
-    panic!("This crashes, but at least the program is memory safe!");
+pub fn new_container<const N: usize>(size: usize) -> Vec<i32> {
+    let mut buffer: [MaybeUninit<i32>; N] = [const { MaybeUninit::uninit() }; N];
+    
+    for i in 0..size.min(N) {
+        buffer[i] = MaybeUninit::new(0);
+    }
+    
+    unsafe {
+        let mut vec = Vec::<i32>::with_capacity(N);
+        let dst: *mut i32 = vec.as_mut_ptr();
+        
+        for i in 0..size.min(N) {
+            dst.add(i).write(buffer[i].assume_init());
+        }
+        
+        vec.set_len(N);
+        vec
+    }
 }
 ```
 
 <details>
 
-Discuss why.
+We can see what's happening in more detail by using a type that's provided by
+the standard library for working with "uninitialized memory".
 
-</details>
-
-## Leaking memory
-
-```rust
-fn leak<T>(val: T) {
-    Box::new(val).leak()
-}
-
-fn main() {
-    let a = 1;
-
-    leak(a);
-}
-```
-
-<details>
-
-Show learners through the example and discuss why leaking memory is not a memory
-safety issue.
-
-_Suggested exercise_
-
-Ask learners to draw a line of the lifecycle of the value of `a`. You may need
-to discuss that variables on the stack are allocated do not use a memory
-allocator.
+This code is almost equivalent to the previous one, except that it's explicit
+with the fact that the memory backing `Vec::with_capacity` is not allowed to be
+read from right away.
 
 </details>
 
@@ -1018,7 +1006,7 @@ pub unsafe fn partial_fill_maybe_uninit_unchecked<T>(
 
 <details>
 
-The keyword has 2 roles:
+The `unsafe` keyword has 2 roles:
 
 - When building abstractions, the `unsafe` keyword signals that safety
   pre-conditions exist that the compiler cannot verify
@@ -1033,8 +1021,6 @@ Documentation must exist that describes what the safety pre-conditions are
 
 # Recap
 
-<!-- TODO: finish -->
-
 - Rust code should be sound code, and sound code must be memory safe code
 - `unsafe` keyword shifts responsibility from the compiler to the programmer
 - `unsafe` requires human review
@@ -1042,20 +1028,8 @@ Documentation must exist that describes what the safety pre-conditions are
 <details>
 
 - soundness implies safety, but safety does not imply soundness
-  - `Sound ⊂ Safe`
-    - `Sound → Safe`, i.e. being sound implies being safe
-    - but, `¬(Safe → Sound)`, i.e. being safe does not imply being sound;
-      equivalently `∃x: Safe(x) ∧ ¬Sound(x)`
 - "safe", "unsafe" and precondition documentation/comments are compile-time
   promises
 - "sound" and "unsound" are judgments about whether the code follows the
   agreed-upon rules about marking things "unsafe" and documenting preconditions.
 - Unsafe operations and precondition comments are not checked automatically.
-
----
-
-<!-- TODO: delete - ideas only -->
-
-# Safety comments
-
-perhaps mention in earlier code that a later unsafe block depends on its state.
