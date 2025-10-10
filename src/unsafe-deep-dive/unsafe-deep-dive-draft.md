@@ -49,6 +49,9 @@ Achieving that aim requires:
   - the confidence to self-review easy cases
   - the knowledge to detect difficult cases
 
+We'll be using a spiral model of teaching. We'll introduce the same topic
+multiple times with increasing depth.
+
 </details>
 
 ---
