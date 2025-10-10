@@ -594,10 +594,13 @@ already been written down.
 
 ---
 
-# Introducing safety preconditions : code example - mismatch
+# Introducing safety preconditions
+
+Let's review this code together:
 
 ```rust,editable
-/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the
+/// default value of `T`.
 pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
     let mut v = Vec::with_capacity(C);
     unsafe {
@@ -619,22 +622,25 @@ This example is intended to present a piece of code that uses unsafe APIs from
 the standard library. It also reinforces the earlier messages about code review
 and preferring alternatives to unsafe.
 
-- When `N > size`, there is an opportunity to create a mismatch that can trigger
-  UB
-- We iterate N times, but set len to size
-- Perhaps a case of premature optimization: ("const generics are really fast")
+Discussion
+
+- When `C > len`, the code triggers undefined behavior as the vector has
+  uninitialized elements
+- Perhaps created a case of premature optimization: ("const generics are really
+  fast")
 
 _Possible solution_
 
-We could push responsibility for maintaining `N <= size` to callers by marking
+We could push responsibility for maintaining `C <= len` to callers by marking
 the function as unsafe and adding a safety comment in the docstring.
 
 ```rust
-/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the
+/// default value of `T`.
 ///
 /// # Safety
 ///
-/// The `N` 
+/// Ensure that `C <= len`. 
 unsafe pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
     let mut v = Vec::with_capacity(C);
     unsafe {
@@ -656,7 +662,8 @@ A better idea would be to fix the program so that problems cannot arise by
 misusing the API.
 
 ```rust,editable
-/// Create a new `Vec<T>` with capacity `C` and length `len` containing the default value of `T`
+/// Create a new `Vec<T>` with capacity `C` and length `len` containing the
+/// default value of `T`.
 pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
     let mut v = Vec::with_capacity(C);
     let len = len.min(C);
