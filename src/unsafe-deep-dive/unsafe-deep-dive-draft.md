@@ -127,17 +127,27 @@ Achieving that aim requires:
 - Creating APIs with safety considerations
   - Functions marked as unsafe, i.e. `unsafe fn`
   - Traits marked as unsafe, i.e. `unsafe trait`
+  - When used in this role, the unsafe keyword indicates that users of the API
+    will need to be careful. It's important for the creator of the API to
+    communicate what care needs to be taken.
 - Using APIs with safety considerations
   - Unsafe blocks: `unsafe { ... }`
   - Unsafe trait implementations: `unsafe impl { ... }`
-- Note that the keyword "unsafe" does not automatically imply a problem. It
-  implies that improper use of the code is unsafe.
-- Consider opening the [unsafe keyword] documentation
-  - Briefly mention (explain that we'll cover them this morning)
-    - (Top of page ) "...existence of **contracts** the compiler can’t check..."
-    - Undefined behavior
-    - Soundness
-    - "...it is now up to you to ensure soundness..."
+  - When used in this role, the unsafe keyword means that the author has been
+    careful. They have verified that the code is safe and is providing an
+    assurance to others.
+- Note that the keyword "unsafe" may have a subtly different meaning than what
+  some people assume.
+  - In principle, the code is safe.
+  - However, improper usage is highly dangerous.
+  - And it's impossible for the compiler to verify that the usage is correct.
+- Open the [unsafe keyword] documentation and highlight some key terms and
+  phrases. Mention that we'll be explaining these terms as we go through the
+  morning.
+  - (Top of page ) "...existence of **contracts** the compiler can’t check..."
+  - Undefined behavior
+  - Soundness
+  - "...it is now up to you to ensure soundness..."
 
 [unsafe keyword]: https://doc.rust-lang.org/stable/std/keyword.unsafe.html
 
