@@ -424,9 +424,9 @@ fn main() {
 
 - The next few slides will look at unsafe from a different perspective
 - Rather than looking at the syntax, we'll think about:
-  - motivations for using the unsafe keyword
-  - the hazards that exist
-  - what those hazards imply for teams writing software using it
+  - The motivations for using unsafe
+  - The hazards that unsafe introduces
+  - What those hazards imply for teams writing software using it
 
 </details>
 
