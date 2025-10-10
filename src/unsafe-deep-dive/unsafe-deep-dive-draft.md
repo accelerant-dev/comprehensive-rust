@@ -167,6 +167,18 @@ multiple times with increasing depth.
 - implementing an unsafe trait (`unsafe impl { ... }`)
 - defining an unsafe trait (`unsafe trait`)
 
+<details>
+
+- These examples are intended to:
+  - Introduce the syntax
+  - Provide a general idea of how unsafe works
+  - Activate learners' brains
+  - Reveal knowledge gaps
+- Encourage comments, but defer detailed explanations
+- Ask learners to write down questions as they arise
+
+</details>
+
 ---
 
 # Warm up: using an unsafe block
