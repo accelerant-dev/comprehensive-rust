@@ -485,10 +485,45 @@ velocity,
 
 ---
 
-# Burden of proof
+# Unsafe shifts the burden of proof
 
 - The compiler is responsible for Safe Rust
 - The programmer is responsible for Unsafe Rust
+
+<detail>
+
+- The unsafe keyword shifts responsibility for maintaining memory safety from
+  the compiler to programmers
+- The unsafe keyword is a marker for _safety preconditions_ that the compiler
+  cannot check
+- Safety preconditions are conditions that must be upheld to keep the code safe;
+  they will be explained in much more depth shortly
+
+</detail>
+
+---
+
+# Unsafe requires a stronger development workflow
+
+- Step 1: create software
+  - Check that pre-conditions are satisfied
+- Step 2: code review
+  - Self-review -> reviewer -> unsafe Rust expert (when needed)
+
+<details>
+
+- The unsafe keyword places more responsibility on the programmer, therefore it
+  requires a stronger development workflow.
+- But there's no such thing as "the programmer". Programmers work in teams.
+- This class assumes a specific software development workflow where code review
+  is mandatory, and where the author and primary reviewer have access to an
+  unsafe Rust expert.
+- There are only a few unsafe Rust experts, and they are very busy, so we need
+  to optimally use their time.
+- The author and primary reviewer will verify simple unsafe Rust code
+  themselves, and punt to an unsafe expert when necessary.
+
+</details>
 
 ---
 
