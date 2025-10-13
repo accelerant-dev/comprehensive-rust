@@ -271,7 +271,7 @@ fn main() {
 - Click through to the [documentation original method][ptr-as_mut]
   - Note that safety rules relating to pointer semantics are subtle
 - Mark `ptr_to_option` and calls as unsafe
-- Add safety pre-conditions (suggested solution below)
+- Add safety preconditions (suggested solution below)
   - Add a safety section to the docstring
   - Add a safety comment in the body of the function
 
