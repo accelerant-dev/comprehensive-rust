@@ -86,6 +86,9 @@ multiple times with increasing depth.
 
 # Defining Unsafe Rust
 
+Only values in this state **3.2.** are correctly initialized. When `C > len`, it
+allows the vector to contain items in state **3.1.**.
+
 <!-- mdbook-xgettext: skip -->
 
 ```bob
@@ -539,9 +542,114 @@ development time.
 
 ---
 
+# Object life cycle
+
+- Memory model
+- Initialization
+- `std::mem::MaybeUninit<T>`
+
+<detail>
+
+- We are working towards understanding _safety preconditions_
+- Safety preconditions are conditions that need to be satisfied before Unsafe
+  Rust is entered so that it follow's Rust's rules
+- To get there, we need to take a slight detour towards understanding a little
+  bit more about how a chunk of memory becomes a valid variable
+- The section uses the term "object" to mean something closer to value or
+  variable, rather than the sense implied by object-oriented programming
+  languages
+
+</detail>
+
+---
+
+# Uninitialized memory workflow
+
+```rust
+use std::mem::MaybeUninit;
+
+fn main() {
+    // Step 1: create MaybeUninit
+    let mut uninit = MaybeUninit::uninit();
+
+    // Step 2: write a valid value to the memory
+    uninit.write(1);
+
+    // Step 3: inform the type system that the memory location is valid
+    let init = unsafe { uninit.assume_init() };
+
+    println!("{init}");
+}
+```
+
+<details>
+
+- General workflow
+  1. Create MaybeUninit
+  2. Write a value
+  3. Confirm unsafe
+
+- Things to avoid
+  - Reading from
+  - Calling `.write()` twice memory leaks (things )
+
+- Create MaybeUninit -> write value -> `assume_init()`
+- `write` is safe, but it still has a precondition,
+  - "This overwrites any previous value without dropping it, so be careful not
+    to use this twice unless you want to skip running the destructor."
+
+- A note around safety
+  - Creating MaybeUninit is safe
+  - Writing a value to it is safe
+
+-
+  - Reading from MaybeUninit requires `unsafe`
+  - Confirming that the memory is now initialized with `assume_init(` requires
+    `unsafe`
+
+</details>
+
+---
+
 # Safety preconditions
 
-Safety preconditions prevent memory safety problems within `unsafe` blocks.
+- Definition
+- Introductory example
+- Complex example
+
+<details>
+
+- Safety preconditions prevent memory safety problems within `unsafe` blocks.
+- First example is another look at some of the code from the warm up
+- Second example is new, and will
+
+</details>
+
+---
+
+# Safety preconditions
+
+What are the safety pre-conditions of these three functions?
+
+```rust
+pub unsafe fn deref(x: u8) -> bool {
+    unsafe { std::mem::transmute(x) }
+}
+
+pub unsafe fn u8_to_bool_unchecked(x: u8) -> bool {
+    unsafe { std::mem::transmute(x) }
+}
+```
+
+<details>
+
+- `u8_to_bool_unchecked`:
+
+</details>
+
+---
+
+# Safety preconditions
 
 What are the conditions that must be upheld when `b.as_mut()` is called?
 
@@ -640,7 +748,7 @@ the function as unsafe and adding a safety comment in the docstring.
 ///
 /// # Safety
 ///
-/// Ensure that `C <= len`. 
+/// Ensure that `C <= len`.
 unsafe pub fn new_filled_container<T: Default, const C: usize>(len: usize) -> Vec<T> {
     let mut v = Vec::with_capacity(C);
     unsafe {
@@ -698,20 +806,120 @@ message:
 
 </details>
 
+# Introducing safety preconditions : Memory life cycle (1)
+
+When is it valid to print out the value of `a` and why?
+
+```rust
+fn main() {
+    // a ≈ 👻
+    println!("1. {a}");
+
+    let a; // 🌱
+
+    println!("2. {a}");
+
+    {
+        a = 1; // 🌳
+        println!("3. {a}");
+        // 🍂
+    }
+
+    // a ≈ 👻
+    println!("4. {a}");
+}
+```
+
+## A rough view of memory
+
+```bob
+         .-.         👻     🌱 [Uninitialized]
+    .---+  -+-.   ~~~>~~~~---*-----.
+ .-+           +.                   |
+|     Memory     |                  * 🌳 [Initialized]
+ '- -       - --'                   | 
+                  ~~~<~~~~---*-----'  
+                     👻      🍂 [Drop]
+```
+
+<details>
+
+- It's important to only access variables that are correctly initialized (🌳).
+- Other states are not allowed
+  - 👻: Impossible to know what the memory contains ("garbage memory")
+  - 🌱: Although the value has been defined, and Rust has provided a space for
+    that value, the memory hasn't been given a value yet.
+  - 🍂: After a value has been dropped, it is no longer valid to access
+- When Rust code interacts with memory from outside, Rust must assume that it is
+  in the uninitialized state (👻)
+- Safe Rust does not allow you to access memory in the uninitialized state
+- The mechanism to convert uninitialized memory to an initialized value is
+  called `std::mem::MaybeUninit<T>`
+
+</details>
+
 ---
 
-# Introducing safety preconditions : introducing MaybeUninit
+# Introducing safety preconditions : Memory life cycle (2)
+
+Only values in this state 3.2 are valid. When `C > len`, it allows the vector to
+contain items in state 3.1.
+
+```bob
+╭──────╮       ╭──────╮      ╭──────────────────────────────╮ 
+│  1   │       │  2   │      │ 3                            │
+│      │       │      │      │   ╭───────╮     ╭───────╮    │
+│      │       │      │      │   │       │     │       │    │
+│      │  -->  │      │  --> │   │       │ --> │       │    │ 
+│      │       │      │      │   │  3.1. │     │  3.2. │    │ 
+│      │  <--  │      │  <-- │   │       │     │   🌳  │    │
+│      │       │      │      │   │       │ <-- │       │    │ 
+│      │       │      │      │   ╰───────╯     ╰───────╯    │ 
+│      │       │      │      │                              │
+╰──────╯       ╰──────╯      ╰──────────────────────────────╯
+```
+
+### Legend
+
+1. Hardware
+2. OS
+3. Program
+   1. Allocator
+   2. Initialized memory
+
+<details>
+
+- Programs written with Safe Rust can only refer to memory that's in state
+  **3.2.**
+- To refer to memory that is not (yet) in state 3.2., Rust provides
+  `std::mem::MaybeUninit`.
+
+</details>
+
+---
+
+# MaybeUninit<T>
+
+<details>
+
+-
+
+</details>
+
+---
+
+# MaybeUninit<T>
 
 ```
 use std::mem::MaybeUninit;
 
-pub fn new_container<const N: usize>(size: usize) -> Vec<i32> {
-    let mut buffer: [MaybeUninit<i32>; N] = [const { MaybeUninit::uninit() }; N];
-    
+pub fn new_container<const N: usize>(size: usize) -> Vec<i32> { let mut buffer:
+[MaybeUninit<i32>; N] = [const { MaybeUninit::uninit() }; N];
+
     for i in 0..size.min(N) {
         buffer[i] = MaybeUninit::new(0);
     }
-    
+
     unsafe {
         let mut vec = Vec::<i32>::with_capacity(N);
         let dst: *mut i32 = vec.as_mut_ptr();
@@ -723,6 +931,7 @@ pub fn new_container<const N: usize>(size: usize) -> Vec<i32> {
         vec.set_len(N);
         vec
     }
+
 }
 ```
 
