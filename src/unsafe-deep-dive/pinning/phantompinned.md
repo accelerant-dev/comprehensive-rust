@@ -13,9 +13,17 @@ pub struct DynamicBuffer {
 
 impl DynamicBuffer {
     pub fn push(&mut self, byte: u8) {
+        // Calculate the cursor offset before the push (which may reallocate)
+        let offset = unsafe {
+            self.cursor.as_ptr().offset_from(self.data.as_ptr())
+        };
+        
         self.data.push(byte);
 
-        // TODO: self.data may have reallocated; ensure that th cursorpoints the the correct place
+        // Update cursor to point to the same offset in the (potentially new) buffer
+        self.cursor = unsafe {
+            NonNull::new_unchecked(self.data.as_mut_ptr().offset(offset))
+        };
     }
 }
 ```
